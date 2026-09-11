@@ -95,6 +95,18 @@ Select-AwtrixApp -Device $clock -Next
 Select-AwtrixApp -Device $clock -Previous
 ```
 
+Stop automatic app-to-app rotation on the currently displayed app, then resume
+it later:
+
+```powershell
+Disable-AwtrixAppRotation -Device $clock
+Enable-AwtrixAppRotation -Device $clock
+```
+
+These commands update the persistent `autoTransition` setting. Manual
+navigation with `Select-AwtrixApp` or the clock buttons remains available while
+automatic rotation is disabled.
+
 ## Notifications and indicators
 
 Dismiss the active notification:

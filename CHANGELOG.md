@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - GIF and JPEG icon upload, listing, ID resolution, download, and removal
   commands, including device storage preflight and upload verification.
 - `Get-AwtrixStorage` for total, used, and free shared filesystem capacity.
+- Commands to disable and enable automatic app-to-app rotation.
 - Typed `AwtrixApp`, `AwtrixNotification`, and `AwtrixScroll` payload classes
   with bare and module-qualified type accelerators and canonical JSON property
   casing.
