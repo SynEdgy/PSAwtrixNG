@@ -24,6 +24,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   commands, including device storage preflight and upload verification.
 - `Get-AwtrixStorage` for total, used, and free shared filesystem capacity.
 - Commands to disable and enable automatic app-to-app rotation.
+- `Set-AwtrixBrightness` with absolute 0–100 percentages and constrained
+  relative increase or decrease adjustments.
 - Typed `AwtrixApp`, `AwtrixNotification`, and `AwtrixScroll` payload classes
   with bare and module-qualified type accelerators and canonical JSON property
   casing.

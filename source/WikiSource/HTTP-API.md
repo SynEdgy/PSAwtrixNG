@@ -72,10 +72,27 @@ full settings object returned by the firmware:
 
 ```powershell
 Set-AwtrixSetting -Device $clock -Setting @{
-    brightness    = 100
+    brightness    = 128
     appDurationMs = 7000
 } -PassThru
 ```
+
+Set an absolute brightness percentage, or adjust the current value by a number
+of percentage points:
+
+```powershell
+Set-AwtrixBrightness -Device $clock -Level 50
+Set-AwtrixBrightness -Device $clock -Increase 10
+Set-AwtrixBrightness -Device $clock -Decrease 5
+```
+
+`-Level` accepts values from 0 through 100 and converts them to the firmware's
+native 0 through 255 scale. Relative adjustments convert the current native
+value to a percentage and are constrained to that range, so increasing 95% by
+10 points results in 100% rather than an invalid value. Use `-PassThru` to
+return the verified settings object, whose `brightness` property remains in the
+native scale. When `autoBrightness` is enabled, the firmware may continue
+adjusting the effective display brightness.
 
 ## Power and application navigation
 

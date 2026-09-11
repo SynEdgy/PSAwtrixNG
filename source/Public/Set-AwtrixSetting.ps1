@@ -11,7 +11,8 @@
         Specifies a host name, IP address, URI, or object returned by New-AwtrixDevice.
 
     .PARAMETER Setting
-        Specifies AWTRIX display setting keys and values, such as BRI, ABRI, or ATIME.
+        Specifies AWTRIX display setting keys and values, such as brightness,
+        autoBrightness, or appDurationMs.
 
     .PARAMETER SkipVerification
         Skips the follow-up settings read and returns the firmware write response.
@@ -20,7 +21,7 @@
         Returns the settings object read after successful verification.
 
     .EXAMPLE
-        Set-AwtrixSetting -Device '192.168.88.202' -Setting @{ BRI = 100 } -WhatIf
+        Set-AwtrixSetting -Device '192.168.88.202' -Setting @{ brightness = 100 } -WhatIf
 #>
 function Set-AwtrixSetting
 {
