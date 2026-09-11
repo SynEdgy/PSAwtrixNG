@@ -35,3 +35,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   build artifacts from `synedgy.PSAwtrixNG` to `PSAwtrixNG`.
 - Added declarative length validation for icon file names and their
   firmware-facing IDs.
+- Corrected the bundled Minecraft icon filenames and changed their canvases
+  from 32×8 backgrounds to 8×8 side icons.

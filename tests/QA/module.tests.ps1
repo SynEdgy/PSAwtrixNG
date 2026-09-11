@@ -104,6 +104,22 @@ Describe 'Bundled module assets' -Tags 'FunctionalQuality' {
                 Should -Be (Get-FileHash -LiteralPath $sourceAsset.FullName -Algorithm SHA256).Hash
         }
     }
+
+    It 'Should keep Minecraft heads at side-icon dimensions' {
+        $projectRoot = "$PSScriptRoot\..\.." | Convert-Path
+        $sourceAssetsPath = Join-Path -Path $projectRoot -ChildPath 'source\Assets'
+
+        foreach ($assetName in 'minecraft-creeper.gif', 'minecraft-steve.gif', 'minecraft-alex.gif')
+        {
+            $assetPath = Join-Path -Path $sourceAssetsPath -ChildPath $assetName
+            $header = [System.IO.File]::ReadAllBytes($assetPath)
+            $width = [System.BitConverter]::ToUInt16($header, 6)
+            $height = [System.BitConverter]::ToUInt16($header, 8)
+
+            $width | Should -Be 8 -Because "$assetName should render beside notification text"
+            $height | Should -Be 8
+        }
+    }
 }
 
 BeforeDiscovery {

@@ -133,6 +133,9 @@ Select-AwtrixApp -Device $clock -Name service_health
 Use an 8×8 asset when the icon should appear beside the text. A 32×8 GIF fills
 the display and is rendered as a background behind the text.
 
+The bundled Minecraft Creeper, Steve, and Alex heads are 8×8 side icons. If an
+older 32×8 copy is already on the device, upload the asset again to replace it.
+
 ## Download an icon
 
 Save to a directory:
