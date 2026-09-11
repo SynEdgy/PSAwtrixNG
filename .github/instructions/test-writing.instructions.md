@@ -11,7 +11,7 @@ Every test file **must** begin with this exact top-level `BeforeAll` / `AfterAll
 
 ```powershell
 BeforeAll {
-    $script:moduleName = 'synedgy.PSAwtrixNG'
+    $script:moduleName = 'PSAwtrixNG'
 
     # If the module is not found, run the build task 'noop'.
     if (-not (Get-Module -Name $script:moduleName -ListAvailable))
@@ -77,7 +77,7 @@ Use the most specific assertion available -- avoid `Should -Be $true` when a ded
 | Type check | `$x \| Should -BeOfType [ExpectedType]` |
 
 - Always scope mock-call assertions with `-Scope It` so counts reset between tests.
-- Call the function under test with its module-qualified name (`synedgy.PSAwtrixNG\Get-Foo`) to avoid accidentally calling a mock or a stale imported version.
+- Call the function under test with its module-qualified name (`PSAwtrixNG\Get-Foo`) to avoid accidentally calling a mock or a stale imported version.
 
 ## Cross-platform test paths
 
@@ -97,7 +97,7 @@ $repoRoot = Join-Path -Path $TestDrive -ChildPath 'MyModule'
 ## `InModuleScope` usage
 
 - Use `InModuleScope` only when the test needs to call a **private** function directly, or when the assertion relies on module-internal state.
-- Do NOT wrap calls to **public** functions in `InModuleScope`. Call them directly with the module-qualified name (`synedgy.PSAwtrixNG\Get-Foo`). The mocks registered via `$PSDefaultParameterValues['Mock:ModuleName'] = 'synedgy.PSAwtrixNG'` still intercept any private function calls made internally by the public function.
+- Do NOT wrap calls to **public** functions in `InModuleScope`. Call them directly with the module-qualified name (`PSAwtrixNG\Get-Foo`). The mocks registered via `$PSDefaultParameterValues['Mock:ModuleName'] = 'PSAwtrixNG'` still intercept any private function calls made internally by the public function.
 - Do NOT reference `$script:` variables inside an `InModuleScope` block. Inside `InModuleScope`, `$script:` refers to the **module's** script scope, not the test file's.
 
 ## `SupportsShouldProcess` in tests

@@ -1,6 +1,6 @@
 # Documentation
 
-`synedgy.PSAwtrixNG` provides PowerShell commands for AWTRIX NG devices. It
+`PSAwtrixNG` provides PowerShell commands for AWTRIX NG devices. It
 targets the AWTRIX NG `/api/v1` HTTP API, MQTT topics, and on-device Berry
 script management.
 

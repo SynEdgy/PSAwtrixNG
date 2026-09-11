@@ -1,4 +1,7 @@
 output/
+obj/
+bin/
+.playwright-mcp/
 
 **.bak
 *.local.*
@@ -15,3 +18,4 @@ output/
 markdownissues.txt
 node_modules
 package-lock.json
+!tests/playwright/package-lock.json

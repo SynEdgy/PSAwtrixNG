@@ -5,7 +5,7 @@ applyTo: 'source/Public/**/*.ps1'
 
 # Public Function Development Guidelines
 
-Public functions are user-facing and are the most critical API surface of synedgy.PSAwtrixNG.
+Public functions are user-facing and are the most critical API surface of PSAwtrixNG.
 
 ## Baseline structure (same as private functions)
 
@@ -100,5 +100,5 @@ $p = Join-Path -Path $p    -ChildPath "$ModuleName.psd1"
 - Add or update a matching test file under `tests/Unit/Public/<FunctionName>.tests.ps1`.
 - Validate both happy path and input validation failures.
 - When commands support both non-interactive and prompted flows, cover both modes.
-- Call the function under test with its module-qualified name (`synedgy.PSAwtrixNG\Get-Foo`) to avoid accidentally calling a mock or a stale imported version.
+- Call the function under test with its module-qualified name (`PSAwtrixNG\Get-Foo`) to avoid accidentally calling a mock or a stale imported version.
 - Follow repository test conventions from `.github/instructions/test-writing.instructions.md`.

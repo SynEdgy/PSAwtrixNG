@@ -12,17 +12,13 @@
     #    }
     #}
 
-    InvokeBuild                 = 'latest'
-    PSScriptAnalyzer            = 'latest'
-    Pester                      = 'latest'
-    ModuleBuilder               = 'latest'
-    ChangelogManagement         = 'latest'
-    Sampler                     = '0.121.0-preview0001'
-    'Sampler.GitHubTasks'       = 'latest'
-    MarkdownLinkCheck           = 'latest'
-    'DscResource.Common'        = 'latest'
-    'DscResource.Test'          = 'latest'
-    'DscResource.AnalyzerRules' = 'latest'
-    xDscResourceDesigner        = 'latest'
-    'DscResource.DocGenerator'  = 'latest'
+    InvokeBuild           = 'latest'
+    PSScriptAnalyzer      = 'latest'
+    Pester                = 'latest'
+    ModuleBuilder         = 'latest'
+    ChangelogManagement   = 'latest'
+    PlatyPS               = 'latest'
+    'DscResource.DocGenerator' = 'latest'
+    Sampler               = '0.121.0-preview0001'
+    'Sampler.GitHubTasks' = 'latest'
 }

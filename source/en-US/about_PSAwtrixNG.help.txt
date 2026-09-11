@@ -1,0 +1,31 @@
+TOPIC
+    about_PSAwtrixNG
+
+SHORT DESCRIPTION
+    PowerShell tools for controlling Ulanzi TC001 smart clocks running AWTRIX NG firmware.
+
+LONG DESCRIPTION
+    PSAwtrixNG manages AWTRIX NG devices through the /api/v1 HTTP API
+    and MQTT. It supports device state, settings, display control, pushed apps,
+    notifications, indicators, terminal screen rendering, Berry scripts, an
+    on-device stopwatch, and an in-process MQTT broker.
+
+EXAMPLES
+    PS C:\> $clock = New-AwtrixDevice -HostName '192.168.88.202'
+    PS C:\> Get-AwtrixStatus -Device $clock
+    PS C:\> Show-AwtrixScreen -Device $clock
+    PS C:\> Install-AwtrixStopwatch -Device $clock
+
+NOTE:
+    State-changing commands support WhatIf. Destructive generic API endpoints
+    additionally require AllowDangerousOperation.
+
+TROUBLESHOOTING NOTE:
+    Look out on the Github repository for issues and new releases.
+
+SEE ALSO
+    https://github.com/SynEdgy/PSAwtrixNG
+    https://blueforcer.github.io/awtrix-ng/
+
+KEYWORDS
+    AWTRIX, AWTRIX NG, Ulanzi, TC001, MQTT, Berry, PowerShell

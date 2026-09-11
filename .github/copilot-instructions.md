@@ -1,4 +1,4 @@
-# GitHub Copilot Instructions for synedgy.PSAwtrixNG
+# GitHub Copilot Instructions for PSAwtrixNG
 
 ## Build and test
 
@@ -23,7 +23,7 @@
 
 ## Repository structure
 
-- Module name: `synedgy.PSAwtrixNG`
+- Module name: `PSAwtrixNG`
 - Source folder: `source/`
 - Do not edit the root module `.psm1` directly; it is generated from source files during build.
 - Public functions live under `source/Public/`.

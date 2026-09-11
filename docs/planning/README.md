@@ -7,9 +7,8 @@ device administration, pushed content, and on-device Berry applications.
 The first demonstrator application will be a stopwatch that can run without a
 continuously connected PowerShell process.
 
-The available TC001 currently runs AWTRIX 3. Live-device validation is deferred
-until it has deliberately been backed up and flashed with AWTRIX NG. Development
-must use mocks and the AWTRIX NG simulator in the meantime.
+The available TC001 runs AWTRIX NG 1.1.0 at `192.168.88.202`. Read-only and
+reversible live-device validation is used alongside mocks and the simulator.
 
 ## Milestone 1: Foundation
 
@@ -87,11 +86,9 @@ process and can be managed through the module.
 - Keep live-device mutation tests opt-in and reversible.
 - Track third-party notices for packaged dependencies.
 
-## Deferred decisions
+## Current decisions
 
-- Whether AWTRIX NG support should require PowerShell 7 or retain Windows
-  PowerShell 5.1 compatibility.
-- Whether MQTT support should embed MQTTnet or initially rely on an external
-  broker/client.
-- Whether Berry application assets should be generic resources or have
-  dedicated commands for first-party applications.
+- Windows PowerShell 5.1 and PowerShell 7 are supported.
+- MQTTnet is packaged for an in-process broker and MQTT client operations.
+- Generic Berry script commands and a dedicated stopwatch installer are both
+  provided.

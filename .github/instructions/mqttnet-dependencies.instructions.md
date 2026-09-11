@@ -1,11 +1,11 @@
 ---
 description: 'MQTTnet NuGet restore, module packaging, and assembly loading'
-applyTo: '{synedgy.PSAwtrixNG.csproj,.build/tasks/Build-AwtrixMqttNetAssets.*,source/Mqtt/**/*.cs,source/Private/Initialize-AwtrixMqttNet.ps1,ThirdPartyNotices/**/*}'
+applyTo: '{PSAwtrixNG.csproj,.build/tasks/Build-AwtrixMqttNetAssets.*,source/Mqtt/**/*.cs,source/Private/Initialize-AwtrixMqttNet.ps1,ThirdPartyNotices/**/*}'
 ---
 
 # MQTTnet dependency guidelines
 
-- Treat `synedgy.PSAwtrixNG.csproj` as the source of truth for the MQTTnet version.
+- Treat `PSAwtrixNG.csproj` as the source of truth for the MQTTnet version.
 - Restore NuGet packages into the gitignored `output/NuGetPackages` folder.
 - Build tasks copy only the required `net461` and `netstandard2.0` runtime assets into `output/lib`, then into the built module.
 - Runtime code must load MQTTnet from the built module's `lib` folder. Never load directly from the transient NuGet cache.

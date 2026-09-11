@@ -23,7 +23,7 @@ type-accelerator workaround so a class becomes usable as `[ClassName]` or
 ## Inputs
 
 - `class_names`: one or more class names to export.
-- `export_style`: for each class, `as-is` (bare name, e.g. `MyClass`) or `namespaced` (module-qualified, e.g. `synedgy.PSAwtrixNG.MyClass`). Default to `namespaced` unless the caller has a specific reason to want the bare name (bare names risk colliding with an accelerator of the same name from another module).
+- `export_style`: for each class, `as-is` (bare name, e.g. `MyClass`) or `namespaced` (module-qualified, e.g. `PSAwtrixNG.MyClass`). Default to `namespaced` unless the caller has a specific reason to want the bare name (bare names risk colliding with an accelerator of the same name from another module).
 
 ## Steps
 

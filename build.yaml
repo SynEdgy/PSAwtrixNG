@@ -16,10 +16,10 @@ Encoding: UTF8
 # using GitVersion is not available, and it is not possible to set the session environment
 # variable `$env:ModuleVersion`, nor setting the variable `$ModuleVersion`, in the
 # PowerShell session (parent scope) before running the task `build`.
-#SemVer: '99.0.0-preview1'
+SemVer: '0.1.0'
 
-# Suffix to add to Root module PSM1 after merge (here, the suffix.ps1 exporting classes as type accelerators)
-suffix: suffix.ps1
+# Suffix to add to Root module PSM1 after merge.
+# suffix: suffix.ps1
 # prefix: prefix.ps1
 VersionedOutputDirectory: true
 
@@ -49,14 +49,25 @@ BuildWorkflow:
 
   build:
     - Clean
+    - Build_Awtrix_MqttNet_Assets
     - Build_Module_ModuleBuilder
     - Build_NestedModules_ModuleBuilder
+    - Copy_Awtrix_MqttNet_Assets_To_Built_Module
     - Create_changelog_release_output
 
+  docs:
+    - Create_Wiki_Output_Folder
+    - Generate_Markdown_For_Public_Commands
+    - Generate_External_Help_File_For_Public_Commands
+    - Clean_Markdown_Of_Public_Commands
+    - Copy_Source_Wiki_Folder
+    - Generate_Wiki_Sidebar
+    - Clean_Markdown_Metadata
+    - Package_Wiki_Content
 
   pack:
     - build
-
+    - docs
     - package_module_nupkg
 
 
@@ -156,6 +167,8 @@ ModuleBuildTasks:
     - '*.build.Sampler.ib.tasks'
   Sampler.GitHubTasks:
     - '*.ib.tasks'
+  DscResource.DocGenerator:
+    - 'Task.*'
 
 
 # Invoke-Build Header to be used to 'decorate' the terminal output of the tasks.
@@ -179,6 +192,17 @@ GitConfig:
   # UserEmail: dsccommunity@outlook.com
   MainGitBranch: main
 
+GitHubConfig:
+  ReleaseAssets:
+    - output/WikiContent.zip
+
+####################################################
+#      DscResource.DocGenerator Configuration      #
+####################################################
+DscResource.DocGenerator:
+  Generate_Wiki_Sidebar:
+    AlwaysOverwrite: true
+
 ####################################################
 #          Changelog Configuration                 #
 ####################################################
@@ -187,8 +211,4 @@ GitConfig:
 #   FilesToAdd:
 #     - 'CHANGELOG.md'
 #   UpdateChangelogOnPrerelease: false  # Set to true to update changelog on pre-releases too
-
-
-
-
 
