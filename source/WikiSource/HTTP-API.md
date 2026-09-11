@@ -118,6 +118,16 @@ contains its dimensions, capture time, signature, and pixels with `X`, `Y`,
 By default, unchanged frames are not redrawn or returned. Use `-ShowUnchanged`
 when every poll must be visible.
 
+## Icons and files
+
+`Set-AwtrixIcon` uses the multipart `POST /api/v1/files` endpoint to upload GIF
+and JPEG icons. `Get-AwtrixFile` lists the supported asset directories,
+`Get-AwtrixIcon` returns icon IDs, and `Save-AwtrixIcon` and
+`Remove-AwtrixIcon` provide download and deletion.
+
+See [Icons and files](Icons-and-Files.md) for complete examples and storage
+behavior.
+
 ## Other documented endpoints
 
 Use `Invoke-AwtrixApi` when a dedicated command is not available:

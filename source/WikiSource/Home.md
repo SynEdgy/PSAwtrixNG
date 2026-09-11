@@ -13,6 +13,7 @@ for local automation and message capture.
 - [Using the HTTP API](HTTP-API.md)
 - [Using MQTT](MQTT.md)
 - [MQTT stopwatch walkthrough](MQTT-Stopwatch-Walkthrough.md)
+- [Icons and files](Icons-and-Files.md)
 - [Berry scripts and stopwatch](Berry-Scripts.md)
 - [Safety and testing](Safety-and-Testing.md)
 - Browse the generated command pages in the wiki sidebar for complete parameter

@@ -20,6 +20,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - An end-to-end MQTT stopwatch walkthrough covering the PowerShell broker,
   AWTRIX NG system configuration, reboot, app selection, control commands, and
   captured state messages.
+- GIF and JPEG icon upload, listing, ID resolution, download, and removal
+  commands, including device storage preflight and upload verification.
+- `Get-AwtrixFile` for Get-ChildItem-style listing of the ICONS, MELODIES,
+  PALETTES, and MP3 asset directories.
 - An in-process MQTTnet broker with PowerShell 5.1 and PowerShell 7 assets.
 
 ### Changed

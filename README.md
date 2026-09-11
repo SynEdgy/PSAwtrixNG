@@ -13,6 +13,7 @@ scripting.
 - Read device, settings, display, application, capability, and screen state.
 - Render and continuously watch the live matrix in the terminal.
 - Manage settings, display power, indicators, pushed apps, and notifications.
+- Upload, list, download, and remove GIF or JPEG icons with storage preflight.
 - Install, retrieve, configure, activate, and remove Berry scripts.
 - Install an on-device stopwatch with select-button start/pause, a three-press
   local reset sequence, and optional MQTT start, pause, toggle, reset, and
