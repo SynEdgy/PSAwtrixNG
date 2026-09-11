@@ -14,7 +14,8 @@
         or hyphens.
 
     .PARAMETER App
-        Specifies the pushed app payload as a dictionary or PowerShell object.
+        Specifies the pushed app payload. Hashtable keys are matched
+        case-insensitively and serialized with the firmware's canonical casing.
 
     .EXAMPLE
         $card = @{
@@ -41,7 +42,7 @@ function Set-AwtrixPushedApp
         $Name,
 
         [Parameter(Mandatory = $true)]
-        [System.Object]
+        [AwtrixApp]
         $App
     )
 

@@ -1,0 +1,36 @@
+class AwtrixApp
+{
+    [System.Object] $text
+    [System.String] $textCase
+    [System.String] $font
+    [System.Object] $textColor
+    [System.Nullable[System.Int32]] $textBlinkMs
+    [System.Nullable[System.Int32]] $textFadeMs
+    [System.Nullable[System.Boolean]] $textCenter
+    [AwtrixScroll] $scroll
+    [System.Nullable[System.Int32]] $textOffsetX
+    [System.Nullable[System.Boolean]] $textInFront
+    [System.String] $icon
+    [System.String] $iconMode
+    [System.Nullable[System.Int32]] $iconOffsetX
+    [System.Nullable[System.Int64]] $durationMs
+    [System.Nullable[System.Int64]] $lifetimeMs
+    [System.String] $lifetimeExpiry
+    [System.Nullable[System.Int32]] $repeat
+    [System.Object] $backgroundColor
+    [System.Int32[]] $barChart
+    [System.Int32[]] $lineChart
+    [System.Nullable[System.Boolean]] $chartAutoscale
+    [System.Object] $chartColor
+    [System.Nullable[System.Int32]] $progress
+    [System.Object] $progressColor
+    [System.Object] $progressTrackColor
+    [System.String] $effect
+    [System.Nullable[System.Double]] $effectSpeed
+    [System.Object] $palette
+    [System.Nullable[System.Boolean]] $paletteBlend
+    [System.Nullable[System.Int32]] $paletteSpan
+    [System.Nullable[System.Double]] $paletteSpeed
+    [System.String] $overlay
+    [System.Object[]] $draw
+}

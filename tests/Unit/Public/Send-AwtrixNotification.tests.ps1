@@ -42,4 +42,17 @@ Describe 'Send-AwtrixNotification' {
 
         Should -Invoke -CommandName Invoke-AwtrixApi -Exactly -Times 0 -Scope It
     }
+
+    It 'Should canonicalize case-insensitive additional properties' {
+        PSAwtrixNG\Send-AwtrixNotification -Device '192.0.2.10' -Text 'Ready' -Property @{
+            ICONMODE  = 'push'
+            TEXTCENTER = $false
+        } -Confirm:$false
+
+        Should -Invoke -CommandName Invoke-AwtrixApi -ParameterFilter {
+            $Body.GetType().Name -eq 'AwtrixNotification' -and
+            $Body.iconMode -eq 'push' -and
+            $Body.textCenter -eq $false
+        } -Exactly -Times 1 -Scope It
+    }
 }

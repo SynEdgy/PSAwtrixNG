@@ -43,6 +43,28 @@ Select-AwtrixApp -Device $clock -Name build
 Remove-AwtrixPushedApp -Device $clock -Name build
 ```
 
+`Set-AwtrixPushedApp` casts the supplied hashtable to `AwtrixApp`, so keys are
+matched case-insensitively and sent using the exact camelCase names required by
+AWTRIX NG:
+
+```powershell
+$card = [AwtrixApp] @{
+    TEXT      = 'Build passed'
+    TEXTCOLOR = '#00FF00'
+    ICONMODE  = 'fixed'
+    SCROLL    = @{
+        WHENFITS = 'static'
+    }
+}
+
+Set-AwtrixPushedApp -Device $clock -Name build -App $card
+```
+
+The bare `[AwtrixApp]`, `[AwtrixNotification]`, and `[AwtrixScroll]`
+accelerators are registered when the module is imported. Module-qualified
+forms such as `[PSAwtrixNG.AwtrixApp]` are also available when avoiding
+potential type-name collisions is preferable.
+
 ## Display settings
 
 `Set-AwtrixSetting` uses the strict NG settings PATCH endpoint and verifies the
@@ -134,7 +156,8 @@ when every poll must be visible.
 `Set-AwtrixIcon` uses the multipart `POST /api/v1/files` endpoint to upload GIF
 and JPEG icons. `Get-AwtrixFile` lists the supported asset directories,
 `Get-AwtrixIcon` returns icon IDs, and `Save-AwtrixIcon` and
-`Remove-AwtrixIcon` provide download and deletion.
+`Remove-AwtrixIcon` provide download and deletion. Use `Get-AwtrixStorage` to
+see total, used, and free device filesystem space.
 
 See [Icons and files](Icons-and-Files.md) for complete examples and storage
 behavior.

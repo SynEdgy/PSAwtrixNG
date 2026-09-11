@@ -20,7 +20,7 @@ Encoding: UTF8
 SemVer: '0.1.0'
 
 # Suffix to add to Root module PSM1 after merge.
-# suffix: suffix.ps1
+suffix: suffix.ps1
 # prefix: prefix.ps1
 VersionedOutputDirectory: true
 

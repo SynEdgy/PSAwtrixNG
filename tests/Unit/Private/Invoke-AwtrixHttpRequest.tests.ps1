@@ -76,4 +76,25 @@ Describe 'Invoke-AwtrixHttpRequest' {
             } -Exactly -Times 1 -Scope It
         }
     }
+
+    It 'Should serialize typed payloads with canonical casing and omit unset properties' {
+        Mock -CommandName Invoke-RestMethod -MockWith { @{ ok = $true } }
+
+        InModuleScope -ScriptBlock {
+            $app = [AwtrixApp] @{
+                TEXT      = 'Ready'
+                TEXTCOLOR = '#00FF00'
+                SCROLL    = @{
+                    WHENFITS = 'scroll'
+                    HOLDMS   = 0
+                }
+            }
+
+            $null = Invoke-AwtrixHttpRequest -Device '192.0.2.10' -Path 'api/v1/apps/pushed/build' -Method Put -Body $app
+
+            Should -Invoke -CommandName Invoke-RestMethod -ParameterFilter {
+                $Body -ceq '{"text":"Ready","textColor":"#00FF00","scroll":{"whenFits":"scroll","holdMs":0}}'
+            } -Exactly -Times 1 -Scope It
+        }
+    }
 }

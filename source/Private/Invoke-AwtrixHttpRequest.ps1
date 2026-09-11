@@ -113,7 +113,8 @@ function Invoke-AwtrixHttpRequest
         }
         else
         {
-            ConvertTo-Json -InputObject $Body -Depth 20 -Compress
+            $jsonObject = ConvertTo-AwtrixJsonObject -InputObject $Body
+            ConvertTo-Json -InputObject $jsonObject -Depth 20 -Compress
         }
     }
 

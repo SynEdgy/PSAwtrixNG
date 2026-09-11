@@ -28,7 +28,8 @@
         Temporarily wakes the matrix when the notification is displayed.
 
     .PARAMETER Property
-        Specifies additional AWTRIX notification properties merged into the payload.
+        Specifies additional AWTRIX notification properties. Hashtable keys are
+        matched case-insensitively and serialized with canonical firmware casing.
 
     .EXAMPLE
         Send-AwtrixNotification -Device '192.168.88.202' -Text 'Build complete' -Color '#00FF00'
@@ -70,16 +71,15 @@ function Send-AwtrixNotification
         $Wakeup,
 
         [Parameter()]
-        [System.Collections.IDictionary]
+        [AwtrixNotification]
         $Property
     )
 
     process
     {
-        $payload = [ordered] @{
-            text     = $Text
-            durationMs = $Duration * 1000
-        }
+        $payload = [AwtrixNotification]::new()
+        $payload.text = $Text
+        $payload.durationMs = $Duration * 1000
 
         if ($Icon) { $payload.icon = $Icon }
         if ($Color) { $payload.textColor = $Color }
@@ -88,9 +88,12 @@ function Send-AwtrixNotification
 
         if ($Property)
         {
-            foreach ($entry in $Property.GetEnumerator())
+            foreach ($propertyEntry in $Property.PSObject.Properties)
             {
-                $payload[$entry.Key] = $entry.Value
+                if ($null -ne $propertyEntry.Value)
+                {
+                    $payload.($propertyEntry.Name) = $propertyEntry.Value
+                }
             }
         }
 

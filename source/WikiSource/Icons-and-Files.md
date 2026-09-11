@@ -173,9 +173,9 @@ Small 8×8 GIFs are inexpensive, while long or full-width animations can use
 substantially more flash and runtime memory.
 
 ```powershell
-Get-AwtrixFile -Device $clock -Directory ICONS |
-    Select-Object Name, SizeBytes, UsedBytes, FreeBytes, TotalBytes
+Get-AwtrixStorage -Device $clock
 ```
 
-The storage values reported by the device are authoritative. A factory reset
-removes stored assets.
+The result includes `UsedBytes`, `FreeBytes`, `TotalBytes`, their MiB
+equivalents, and `UsedPercent` and `FreePercent`. The storage values reported
+by the device are authoritative. A factory reset removes stored assets.

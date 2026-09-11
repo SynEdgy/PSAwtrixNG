@@ -27,10 +27,17 @@ Describe 'Set-AwtrixPushedApp' {
     }
 
     It 'Should put the named pushed app payload' {
-        PSAwtrixNG\Set-AwtrixPushedApp -Device '192.0.2.10' -Name build -App @{ text = 'Ready' } -Confirm:$false
+        PSAwtrixNG\Set-AwtrixPushedApp -Device '192.0.2.10' -Name build -App @{
+            TEXT      = 'Ready'
+            TEXTCOLOR = '#00FF00'
+        } -Confirm:$false
 
         Should -Invoke -CommandName Invoke-AwtrixApi -ParameterFilter {
-            $Path -eq 'api/v1/apps/pushed/build' -and $Method -eq 'Put' -and $Body.text -eq 'Ready'
+            $Path -eq 'api/v1/apps/pushed/build' -and
+            $Method -eq 'Put' -and
+            $Body.GetType().Name -eq 'AwtrixApp' -and
+            $Body.text -eq 'Ready' -and
+            $Body.textColor -eq '#00FF00'
         } -Exactly -Times 1 -Scope It
     }
 }

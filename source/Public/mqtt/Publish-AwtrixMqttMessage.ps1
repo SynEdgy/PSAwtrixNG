@@ -84,7 +84,8 @@ function Publish-AwtrixMqttMessage
         }
         else
         {
-            ConvertTo-Json -InputObject $Payload -Depth 20 -Compress
+            $jsonObject = ConvertTo-AwtrixJsonObject -InputObject $Payload
+            ConvertTo-Json -InputObject $jsonObject -Depth 20 -Compress
         }
 
         $message = [MQTTnet.MqttApplicationMessageBuilder]::new().

@@ -22,6 +22,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   captured state messages.
 - GIF and JPEG icon upload, listing, ID resolution, download, and removal
   commands, including device storage preflight and upload verification.
+- `Get-AwtrixStorage` for total, used, and free shared filesystem capacity.
+- Typed `AwtrixApp`, `AwtrixNotification`, and `AwtrixScroll` payload classes
+  with bare and module-qualified type accelerators and canonical JSON property
+  casing.
 - Bundled static and animated GIF assets copied into the packaged module for
   use in notifications and pushed-app cards, including white terminal and
   compact PowerShell icons.
