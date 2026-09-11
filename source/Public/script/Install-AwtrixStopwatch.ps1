@@ -7,8 +7,9 @@
         button to start or pause it. Press select three times, with each press
         between 350 and 1200 milliseconds apart, to reset it without MQTT.
         The display includes hundredths of a second in m:ss.hh format.
-        Publishing any payload to ResetTopic also resets the stopwatch when MQTT
-        is configured on the device.
+        When MQTT is configured, ControlTopic accepts start, pause, toggle,
+        reset, and restart commands. Publishing any payload to ResetTopic also
+        resets the stopwatch.
 
     .PARAMETER Device
         Specifies a host name, IP address, URI, or object returned by New-AwtrixDevice.
@@ -18,6 +19,10 @@
 
     .PARAMETER ResetTopic
         Specifies the MQTT topic that resets the stopwatch.
+
+    .PARAMETER ControlTopic
+        Specifies the MQTT topic that accepts start, pause, toggle, reset, and
+        restart commands.
 
     .PARAMETER StateTopic
         Specifies the MQTT topic used to publish running, paused, and reset events.
@@ -44,6 +49,11 @@ function Install-AwtrixStopwatch
         [ValidatePattern('^[^"#\r\n]+$')]
         [System.String]
         $ResetTopic = 'awtrix/stopwatch/reset',
+
+        [Parameter()]
+        [ValidatePattern('^[^"#\r\n]+$')]
+        [System.String]
+        $ControlTopic = 'awtrix/stopwatch/control',
 
         [Parameter()]
         [ValidatePattern('^[^"#\r\n]+$')]
@@ -79,6 +89,32 @@ class Stopwatch
 
   def setup()
     mqtt.subscribe("$ResetTopic", def (topic, payload) self.reset() end)
+    mqtt.subscribe("$ControlTopic", def (topic, payload) self.control(payload) end)
+  end
+
+  def start()
+    if !self.running
+      self.started = now_ms()
+      self.running = true
+      mqtt.publish("$StateTopic", "running")
+    end
+  end
+
+  def pause()
+    if self.running
+      self.elapsed = self.elapsed + now_ms() - self.started
+      self.running = false
+      store.set("elapsedMs", self.elapsed)
+      mqtt.publish("$StateTopic", "paused")
+    end
+  end
+
+  def toggle()
+    if self.running
+      self.pause()
+    else
+      self.start()
+    end
   end
 
   def reset()
@@ -89,6 +125,29 @@ class Stopwatch
     self.lastSelect = 0
     store.set("elapsedMs", 0)
     mqtt.publish("$StateTopic", "reset")
+  end
+
+  def restart()
+    self.elapsed = 0
+    self.selectCount = 0
+    self.lastSelect = 0
+    store.set("elapsedMs", 0)
+    self.running = false
+    self.start()
+  end
+
+  def control(command)
+    if command == "start"
+      self.start()
+    elif command == "pause"
+      self.pause()
+    elif command == "toggle"
+      self.toggle()
+    elif command == "reset"
+      self.reset()
+    elif command == "restart"
+      self.restart()
+    end
   end
 
   def on_button(btn)
@@ -107,16 +166,7 @@ class Stopwatch
         return
       end
 
-      if self.running
-        self.elapsed = self.elapsed + now_ms() - self.started
-        self.running = false
-        store.set("elapsedMs", self.elapsed)
-        mqtt.publish("$StateTopic", "paused")
-      else
-        self.started = now_ms()
-        self.running = true
-        mqtt.publish("$StateTopic", "running")
-      end
+      self.toggle()
     end
   end
 

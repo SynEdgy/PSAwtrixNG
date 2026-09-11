@@ -15,6 +15,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - An on-device stopwatch with select-button start/pause, a three-press local
   reset sequence, hundredths-of-a-second display, and optional MQTT reset/state
   topics.
+- MQTT stopwatch control commands for idempotent start and pause, plus toggle,
+  reset, and restart.
+- An end-to-end MQTT stopwatch walkthrough covering the PowerShell broker,
+  AWTRIX NG system configuration, reboot, app selection, control commands, and
+  captured state messages.
 - An in-process MQTTnet broker with PowerShell 5.1 and PowerShell 7 assets.
 
 ### Changed

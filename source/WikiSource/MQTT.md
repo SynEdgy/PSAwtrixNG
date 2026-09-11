@@ -74,3 +74,6 @@ Stop-AwtrixMqttBroker -Name LocalAwtrix
 ```
 
 The broker also stops when its PowerShell process exits.
+
+For a complete example that configures AWTRIX NG and controls the on-device
+stopwatch, see the [MQTT stopwatch walkthrough](MQTT-Stopwatch-Walkthrough.md).

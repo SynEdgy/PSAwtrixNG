@@ -54,20 +54,32 @@ The elapsed time is displayed as `minutes:seconds.hundredths`, for example
 Left and right retain normal app navigation. The paused elapsed time is
 persisted by the device.
 
-MQTT is optional. When configured, it provides another reset mechanism and
-allows PowerShell to receive state changes:
+MQTT is optional. When configured, publish a command to
+`awtrix/stopwatch/control`:
 
 ```powershell
 $publishParameters = @{
     BrokerHost = 'broker.local'
-    Topic      = 'awtrix/stopwatch/reset'
-    Payload    = 'reset'
+    Topic      = 'awtrix/stopwatch/control'
+    Payload    = 'start'
 }
 Publish-AwtrixMqttMessage @publishParameters
 
 Receive-AwtrixMqttMessage -BrokerName LocalAwtrix -TimeoutSec 30
 ```
 
+| Payload | Action |
+|---|---|
+| `start` | Starts the stopwatch if it is paused. |
+| `pause` | Pauses the stopwatch if it is running. |
+| `toggle` | Switches between running and paused. |
+| `reset` | Resets to zero and pauses. |
+| `restart` | Resets to zero and starts immediately. |
+
+`start` and `pause` are idempotent, so repeated messages do not reverse the
+requested state. The legacy `awtrix/stopwatch/reset` topic remains available;
+any payload published to it resets and pauses the stopwatch.
+
 By default the app publishes `running`, `paused`, and `reset` to
-`awtrix/stopwatch/state`. Use `-ResetTopic` and `-StateTopic` during
-installation to choose different topics.
+`awtrix/stopwatch/state`. Use `-ControlTopic`, `-ResetTopic`, and `-StateTopic`
+during installation to choose different topics.

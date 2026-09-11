@@ -20,7 +20,13 @@ Describe 'Install-AwtrixStopwatch' {
             $Source -match 'self.selectCount >= 3' -and
             $Source -match 'var hundredths = int\(\(elapsed % 1000\) / 10\)' -and
             $Source -match 'secondsText \+ "\." \+ hundredthsText' -and
-            $Source -match 'mqtt.subscribe\("awtrix/stopwatch/reset"'
+            $Source -match 'mqtt.subscribe\("awtrix/stopwatch/reset"' -and
+            $Source -match 'mqtt.subscribe\("awtrix/stopwatch/control"' -and
+            $Source -match 'command == "start"' -and
+            $Source -match 'command == "pause"' -and
+            $Source -match 'command == "toggle"' -and
+            $Source -match 'command == "reset"' -and
+            $Source -match 'command == "restart"'
         } -Exactly -Times 1 -Scope It
     }
 }
