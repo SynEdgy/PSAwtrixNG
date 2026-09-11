@@ -4,8 +4,11 @@
 
     .DESCRIPTION
         Installs a Berry app that runs entirely on the device. Press the select
-        button to start or pause it. Publishing any payload to ResetTopic resets
-        the stopwatch when MQTT is configured on the device.
+        button to start or pause it. Press select three times, with each press
+        between 350 and 1200 milliseconds apart, to reset it without MQTT.
+        The display includes hundredths of a second in m:ss.hh format.
+        Publishing any payload to ResetTopic also resets the stopwatch when MQTT
+        is configured on the device.
 
     .PARAMETER Device
         Specifies a host name, IP address, URI, or object returned by New-AwtrixDevice.
@@ -58,16 +61,20 @@ function Install-AwtrixStopwatch
 
         $source = @"
 # @name $Name
-# @description Select starts or pauses; MQTT resets the elapsed time.
+# @description Select starts or pauses; three paced presses reset.
 class Stopwatch
   var running
   var started
   var elapsed
+  var selectCount
+  var lastSelect
 
   def init()
     self.running = false
     self.started = 0
     self.elapsed = store.get("elapsedMs", 0)
+    self.selectCount = 0
+    self.lastSelect = 0
   end
 
   def setup()
@@ -78,12 +85,28 @@ class Stopwatch
     self.running = false
     self.started = 0
     self.elapsed = 0
+    self.selectCount = 0
+    self.lastSelect = 0
     store.set("elapsedMs", 0)
     mqtt.publish("$StateTopic", "reset")
   end
 
   def on_button(btn)
     if btn == "select"
+      var pressed = now_ms()
+      var gap = pressed - self.lastSelect
+      if self.lastSelect > 0 && gap >= 350 && gap <= 1200
+        self.selectCount = self.selectCount + 1
+      else
+        self.selectCount = 1
+      end
+      self.lastSelect = pressed
+
+      if self.selectCount >= 3
+        self.reset()
+        return
+      end
+
       if self.running
         self.elapsed = self.elapsed + now_ms() - self.started
         self.running = false
@@ -106,8 +129,10 @@ class Stopwatch
     var total = int(elapsed / 1000)
     var minutes = int(total / 60)
     var seconds = total % 60
+    var hundredths = int((elapsed % 1000) / 10)
     var secondsText = seconds < 10 ? "0" + str(seconds) : str(seconds)
-    var label = str(minutes) + ":" + secondsText
+    var hundredthsText = hundredths < 10 ? "0" + str(hundredths) : str(hundredths)
+    var label = str(minutes) + ":" + secondsText + "." + hundredthsText
     var color = self.running ? 0x00FF00 : 0xFFAA00
     text((width() - text_ink_width(label)) / 2, 6, label, color)
   end

@@ -16,6 +16,10 @@ Describe 'Install-AwtrixStopwatch' {
         Should -Invoke Set-AwtrixScript -ParameterFilter {
             $Name -eq 'Stopwatch' -and
             $Source -match 'def on_button\(btn\)' -and
+            $Source -match 'gap >= 350 && gap <= 1200' -and
+            $Source -match 'self.selectCount >= 3' -and
+            $Source -match 'var hundredths = int\(\(elapsed % 1000\) / 10\)' -and
+            $Source -match 'secondsText \+ "\." \+ hundredthsText' -and
             $Source -match 'mqtt.subscribe\("awtrix/stopwatch/reset"'
         } -Exactly -Times 1 -Scope It
     }

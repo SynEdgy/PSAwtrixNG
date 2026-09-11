@@ -43,10 +43,19 @@ Install-AwtrixStopwatch -Device $clock
 Select-AwtrixApp -Device $clock -Name Stopwatch
 ```
 
-Press the **select** button to start or pause. Left and right retain normal app
-navigation. The paused elapsed time is persisted by the device.
+Press the **select** button to start or pause. To reset locally, press select
+**three times**, leaving roughly half a second between presses. Each gap must be
+between 0.35 and 1.2 seconds. Do not rapid-double-click: AWTRIX NG reserves a
+double press within 0.3 seconds for toggling display power.
 
-When MQTT is configured, reset the stopwatch and receive state changes:
+The elapsed time is displayed as `minutes:seconds.hundredths`, for example
+`1:23.45`.
+
+Left and right retain normal app navigation. The paused elapsed time is
+persisted by the device.
+
+MQTT is optional. When configured, it provides another reset mechanism and
+allows PowerShell to receive state changes:
 
 ```powershell
 $publishParameters = @{

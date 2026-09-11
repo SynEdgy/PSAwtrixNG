@@ -12,7 +12,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - NG-native pushed-app commands without AWTRIX 3 compatibility aliases.
 - Dynamic terminal rendering for the dimensions reported by the device.
 - Berry script upload, download, configuration, and removal commands.
-- An on-device stopwatch with select-button control and MQTT reset/state topics.
+- An on-device stopwatch with select-button start/pause, a three-press local
+  reset sequence, hundredths-of-a-second display, and optional MQTT reset/state
+  topics.
 - An in-process MQTTnet broker with PowerShell 5.1 and PowerShell 7 assets.
 
 ### Changed
