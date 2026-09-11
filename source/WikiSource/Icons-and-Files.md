@@ -3,6 +3,9 @@
 AWTRIX NG stores static logos and animated images as files in its `/ICONS`
 directory. `PSAwtrixNG` can upload, list, download, and remove those icons.
 
+The module also includes ready-to-upload GIFs under its `Assets` directory.
+Sampler copies this directory into every built and packaged module.
+
 ## Supported icon files
 
 The AWTRIX NG file API accepts:
@@ -105,6 +108,30 @@ Send-AwtrixNotification @notificationParameters
 ```
 
 The same ID can be used in pushed-app payloads and Berry `icon()` calls.
+
+## Create a card with an included icon
+
+Pushed apps are useful as named cards containing an icon and text. Resolve the
+module installation directory, upload an included 8×8 icon, then use its ID in
+the card payload:
+
+```powershell
+$module = Get-Module -Name PSAwtrixNG
+$assetPath = Join-Path -Path $module.ModuleBase -ChildPath 'Assets\heartbeat-green-compact.gif'
+$icon = Set-AwtrixIcon -Device $clock -Path $assetPath
+
+$card = @{
+    text      = 'Service healthy'
+    textColor = '#00FF00'
+    icon      = $icon.Id
+}
+
+Set-AwtrixPushedApp -Device $clock -Name service_health -App $card
+Select-AwtrixApp -Device $clock -Name service_health
+```
+
+Use an 8×8 asset when the icon should appear beside the text. A 32×8 GIF fills
+the display and is rendered as a background behind the text.
 
 ## Download an icon
 

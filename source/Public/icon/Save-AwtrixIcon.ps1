@@ -32,12 +32,13 @@ function Save-AwtrixIcon
         $Device,
 
         [Parameter(Mandatory = $true)]
+        [ValidateLength(5, 68)]
         [ValidateScript(
             {
-                $baseName = [System.IO.Path]::GetFileNameWithoutExtension($_)
+                [ValidateLength(1, 64)]
+                [System.String] $baseName = [System.IO.Path]::GetFileNameWithoutExtension($_)
                 if ($_ -match '[/\\"]|[\x00-\x1F]' -or $_ -match '\.\.' -or
-                    $_ -notmatch '(?i)\.(gif|jpg)$' -or
-                    [System.String]::IsNullOrEmpty($baseName) -or $baseName.Length -gt 64)
+                    $_ -notmatch '(?i)\.(gif|jpg)$')
                 {
                     throw "Icon name '$_' must be a traversal-safe .gif or .jpg file name with an ID no longer than 64 characters."
                 }

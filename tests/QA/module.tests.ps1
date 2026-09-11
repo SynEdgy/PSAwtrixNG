@@ -82,6 +82,30 @@ Describe 'General module control' -Tags 'FunctionalQuality' {
     }
 }
 
+Describe 'Bundled module assets' -Tags 'FunctionalQuality' {
+    It 'Should copy every source asset into the built module' {
+        $projectRoot = "$PSScriptRoot\..\.." | Convert-Path
+        $sourceAssetsPath = Join-Path -Path $projectRoot -ChildPath 'source\Assets'
+        $builtModuleRoot = Join-Path -Path $projectRoot -ChildPath "output\module\$script:moduleName"
+        $builtManifest = Get-ChildItem -LiteralPath $builtModuleRoot -Filter "$script:moduleName.psd1" -Recurse |
+            Select-Object -First 1
+        $builtAssetsPath = Join-Path -Path $builtManifest.Directory.FullName -ChildPath 'Assets'
+
+        Test-Path -LiteralPath $builtAssetsPath -PathType Container |
+            Should -BeTrue
+
+        foreach ($sourceAsset in (Get-ChildItem -LiteralPath $sourceAssetsPath -File))
+        {
+            $builtAssetPath = Join-Path -Path $builtAssetsPath -ChildPath $sourceAsset.Name
+
+            Test-Path -LiteralPath $builtAssetPath -PathType Leaf |
+                Should -BeTrue
+            (Get-FileHash -LiteralPath $builtAssetPath -Algorithm SHA256).Hash |
+                Should -Be (Get-FileHash -LiteralPath $sourceAsset.FullName -Algorithm SHA256).Hash
+        }
+    }
+}
+
 BeforeDiscovery {
     # Must use the imported module to build test cases.
     $allModuleFunctions = & $mut { Get-Command -Module $args[0] -CommandType Function } $script:moduleName

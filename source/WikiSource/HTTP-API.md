@@ -23,11 +23,22 @@ Send-AwtrixNotification -Device $clock -Text 'Preview' -WhatIf
 
 ## Pushed applications
 
+AWTRIX NG pushed apps can be used as persistent-in-memory cards. This example
+uploads one of the GIFs bundled with the module and combines it with text:
+
 ```powershell
-Set-AwtrixPushedApp -Device $clock -Name build -App @{
+$module = Get-Module -Name PSAwtrixNG
+$assetPath = Join-Path -Path $module.ModuleBase -ChildPath 'Assets\heartbeat-green-compact.gif'
+$icon = Set-AwtrixIcon -Device $clock -Path $assetPath
+
+$card = @{
     text      = 'Build passed'
     textColor = '#00FF00'
+    icon      = $icon.Id
 }
+
+Set-AwtrixPushedApp -Device $clock -Name build -App $card
+Select-AwtrixApp -Device $clock -Name build
 
 Remove-AwtrixPushedApp -Device $clock -Name build
 ```

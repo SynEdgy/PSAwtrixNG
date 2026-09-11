@@ -68,6 +68,14 @@ Describe 'Set-AwtrixIcon' {
         } | Should -Throw '*does not contain valid .gif icon signature bytes*'
     }
 
+    It 'Should reject a destination icon ID longer than 64 characters' {
+        $longName = 'a' * 65
+
+        {
+            PSAwtrixNG\Set-AwtrixIcon -Device '192.0.2.10' -Path $script:iconPath -Name $longName -Confirm:$false
+        } | Should -Throw
+    }
+
     It 'Should recognize a full-path firmware listing when replacing an icon' {
         Mock Invoke-AwtrixApi {
             [PSCustomObject] @{

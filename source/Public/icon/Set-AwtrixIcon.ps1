@@ -48,6 +48,7 @@ function Set-AwtrixIcon
         $Path,
 
         [Parameter()]
+        [ValidateLength(1, 68)]
         [ValidateNotNullOrEmpty()]
         [System.String]
         $Name
@@ -78,11 +79,11 @@ function Set-AwtrixIcon
             $resolvedPath.Name
         }
 
-        $destinationId = [System.IO.Path]::GetFileNameWithoutExtension($destinationName)
+        [ValidateLength(1, 64)]
+        [System.String] $destinationId = [System.IO.Path]::GetFileNameWithoutExtension($destinationName)
         if ($destinationName -match '[/\\"]|[\x00-\x1F]' -or
             $destinationName -match '\.\.' -or
-            $destinationName -notmatch '(?i)\.(gif|jpg)$' -or
-            [System.String]::IsNullOrEmpty($destinationId) -or $destinationId.Length -gt 64)
+            $destinationName -notmatch '(?i)\.(gif|jpg)$')
         {
             throw "Icon name '$destinationName' must be a traversal-safe .gif or .jpg file name with an ID no longer than 64 characters."
         }

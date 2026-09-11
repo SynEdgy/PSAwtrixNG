@@ -17,7 +17,13 @@
         Specifies the pushed app payload as a dictionary or PowerShell object.
 
     .EXAMPLE
-        Set-AwtrixPushedApp -Device '192.168.88.202' -Name build -App @{ text = 'Ready'; textColor = '#00FF00' }
+        $card = @{
+            text      = 'Build passed'
+            textColor = '#00FF00'
+            icon      = 'heartbeat-green-compact'
+        }
+
+        Set-AwtrixPushedApp -Device '192.168.88.202' -Name build -App $card
 #>
 function Set-AwtrixPushedApp
 {

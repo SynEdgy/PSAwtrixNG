@@ -9,6 +9,7 @@
 BuiltModuleSubdirectory: module
 CopyPaths:
   - en-US
+  - Assets
 #  - DSCResources
   # - Modules
 Encoding: UTF8
@@ -211,4 +212,3 @@ DscResource.DocGenerator:
 #   FilesToAdd:
 #     - 'CHANGELOG.md'
 #   UpdateChangelogOnPrerelease: false  # Set to true to update changelog on pre-releases too
-

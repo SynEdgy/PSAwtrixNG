@@ -31,4 +31,12 @@ Describe 'Get-AwtrixIcon' {
             $Directory -eq 'ICONS' -and $Name -ceq 'logo.gif'
         } -Exactly -Times 1 -Scope It
     }
+
+    It 'Should reject an icon ID longer than 64 characters' {
+        $longName = ('a' * 65) + '.gif'
+
+        {
+            PSAwtrixNG\Get-AwtrixIcon -Device '192.0.2.10' -Name $longName
+        } | Should -Throw
+    }
 }
