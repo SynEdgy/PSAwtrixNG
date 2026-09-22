@@ -12,8 +12,8 @@ scripting.
 
 - Read device, settings, display, application, capability, and screen state.
 - Render and continuously watch the live matrix in the terminal.
-- Manage settings, percentage-based brightness, display power, indicators,
-  pushed apps, and notifications.
+- Manage settings, read and adjust percentage-based brightness, control display
+  power, and manage indicators, pushed apps, and notifications.
 - Pause and resume automatic app-to-app display rotation.
 - Upload, list, download, and remove GIF or JPEG icons with storage preflight.
 - Report total, used, and free device filesystem space.

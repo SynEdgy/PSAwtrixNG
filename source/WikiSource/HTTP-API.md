@@ -86,6 +86,12 @@ Set-AwtrixBrightness -Device $clock -Increase 10
 Set-AwtrixBrightness -Device $clock -Decrease 5
 ```
 
+Read the normalized percentage, native value, and automatic-brightness state:
+
+```powershell
+Get-AwtrixBrightness -Device $clock
+```
+
 `-Level` accepts values from 0 through 100 and converts them to the firmware's
 native 0 through 255 scale. Relative adjustments convert the current native
 value to a percentage and are constrained to that range, so increasing 95% by
@@ -93,6 +99,10 @@ value to a percentage and are constrained to that range, so increasing 95% by
 return the verified settings object, whose `brightness` property remains in the
 native scale. When `autoBrightness` is enabled, the firmware may continue
 adjusting the effective display brightness.
+
+The focused commands use the `AwtrixBrightness` noun because they operate on a
+single brightness value. `Get-AwtrixDisplay` remains the broader command for
+matrix power, brightness, overlay, and moodlight state.
 
 ## Power and application navigation
 

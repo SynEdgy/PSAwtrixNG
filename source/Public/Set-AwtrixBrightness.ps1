@@ -83,16 +83,7 @@ function Set-AwtrixBrightness
             }
 
             $currentBrightness = [System.Int32] $brightnessProperty.Value
-
-            if ($currentBrightness -lt 0 -or $currentBrightness -gt 255)
-            {
-                throw "AWTRIX brightness could not be adjusted because the device returned an invalid brightness value of $currentBrightness."
-            }
-
-            $currentLevel = [System.Int32] [System.Math]::Round(
-                ($currentBrightness * 100) / 255,
-                [System.MidpointRounding]::AwayFromZero
-            )
+            $currentLevel = ConvertFrom-AwtrixBrightnessValue -Value $currentBrightness
 
             if ($PSCmdlet.ParameterSetName -eq 'Increase')
             {
@@ -104,10 +95,7 @@ function Set-AwtrixBrightness
             }
         }
 
-        $targetBrightness = [System.Int32] [System.Math]::Round(
-            ($targetLevel * 255) / 100,
-            [System.MidpointRounding]::AwayFromZero
-        )
+        $targetBrightness = ConvertTo-AwtrixBrightnessValue -Percent $targetLevel
 
         if ($PSCmdlet.ShouldProcess($resolvedDevice.BaseUri, "Set AWTRIX brightness to $targetLevel percent"))
         {

@@ -114,7 +114,7 @@ Describe 'Set-AwtrixBrightness' {
 
         {
             PSAwtrixNG\Set-AwtrixBrightness -Device '192.0.2.10' -Increase 10 -Confirm:$false
-        } | Should -Throw '*invalid brightness value of 256*'
+        } | Should -Throw '*invalid native brightness value of 256*'
 
         Should -Invoke -CommandName Set-AwtrixSetting -Exactly -Times 0 -Scope It
     }
