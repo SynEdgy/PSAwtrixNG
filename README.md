@@ -62,8 +62,20 @@ Bootstrap dependencies and build the module through Sampler:
 GitHub Actions runs the Sampler build and package workflow, tests PowerShell 7
 on Windows, Linux, and macOS, tests Windows PowerShell 5.1, and runs the module
 quality checks. Pushes of `v*` tags publish the GitHub release, wiki
-content, and PowerShell Gallery package. Configure the repository Actions
-secret `PSGALLERY_API_KEY` before creating a release tag.
+content, and PowerShell Gallery package, then open a pull request that moves
+the released entries out of the changelog's Unreleased section.
+
+Configure these repository Actions secrets before creating a release tag:
+
+- `PSGALLERY_API_KEY`: PowerShell Gallery publishing API key.
+- `RELEASE_PAT`: GitHub personal access token used by the Sampler release,
+  wiki, branch push, and changelog pull request tasks. For a fine-grained token,
+  grant this repository read/write access to Contents and Pull requests. A
+  classic token requires the `repo` scope.
+
+The dedicated PAT also allows the changelog branch push to trigger the normal
+pull-request validation workflow; pushes made with the built-in
+`GITHUB_TOKEN` do not trigger another workflow run.
 
 ## License
 

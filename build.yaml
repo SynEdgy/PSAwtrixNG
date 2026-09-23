@@ -194,8 +194,13 @@ GitConfig:
   MainGitBranch: main
 
 GitHubConfig:
+  GitHubFilesToAdd:
+    - CHANGELOG.md
   ReleaseAssets:
     - output/WikiContent.zip
+  GitHubConfigUserName: github-actions[bot]
+  GitHubConfigUserEmail: 41898282+github-actions[bot]@users.noreply.github.com
+  UpdateChangelogOnPrerelease: false
 
 ####################################################
 #      DscResource.DocGenerator Configuration      #
