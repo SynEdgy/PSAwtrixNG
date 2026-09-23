@@ -10,7 +10,7 @@
   - Build: `./build.ps1 -Tasks build`
   - Focused test: `./build.ps1 -Tasks test -PesterPath 'tests/Unit/Public/MyFunction.Tests.ps1' -CodeCoverageThreshold 0`
   - Full test suite: `./build.ps1 -Tasks test`
-  - Quality gate: `./build.ps1 -Tasks hqrmtest`
+  - Quality gate: `./build.ps1 -Tasks test -PesterPath 'tests/QA' -CodeCoverageThreshold 0`
 - Keep test environments distinct:
   - `tests/Unit` contains mocked, isolated behavior tests.
   - `tests/Integration` may use local ephemeral services but must not require an AWTRIX device.

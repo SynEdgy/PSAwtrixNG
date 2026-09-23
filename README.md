@@ -59,6 +59,12 @@ Bootstrap dependencies and build the module through Sampler:
 .\build.ps1 -Tasks docs
 ```
 
+GitHub Actions runs the Sampler build and package workflow, tests PowerShell 7
+on Windows, Linux, and macOS, tests Windows PowerShell 5.1, and runs the module
+quality checks. Pushes of `v*` tags publish the GitHub release, wiki
+content, and PowerShell Gallery package. Configure the repository Actions
+secret `PSGALLERY_API_KEY` before creating a release tag.
+
 ## License
 
 This PowerShell module is licensed under the [MIT License](LICENSE).
