@@ -32,7 +32,7 @@
         matched case-insensitively and serialized with canonical firmware casing.
 
     .EXAMPLE
-        Send-AwtrixNotification -Device '192.168.88.202' -Text 'Build complete' -Color '#00FF00'
+        Send-AwtrixNotification -Device 'clock.local' -Text 'Build complete' -Color '#00FF00'
 #>
 function Send-AwtrixNotification
 {

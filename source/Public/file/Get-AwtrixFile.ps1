@@ -18,10 +18,10 @@
         Specifies an exact, case-sensitive file name to return.
 
     .EXAMPLE
-        Get-AwtrixFile -Device '192.168.88.202' -Directory ICONS
+        Get-AwtrixFile -Device 'clock.local' -Directory ICONS
 
     .EXAMPLE
-        Get-AwtrixFile -Device '192.168.88.202' -Directory ICONS -Name logo.gif
+        Get-AwtrixFile -Device 'clock.local' -Directory ICONS -Name logo.gif
 #>
 function Get-AwtrixFile
 {

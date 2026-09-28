@@ -12,7 +12,7 @@
         Specifies the pushed app name to remove from the application inventory.
 
     .EXAMPLE
-        Remove-AwtrixPushedApp -Device '192.168.88.202' -Name build
+        Remove-AwtrixPushedApp -Device 'clock.local' -Name build
 #>
 function Remove-AwtrixPushedApp
 {

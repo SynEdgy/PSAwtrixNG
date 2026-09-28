@@ -10,7 +10,7 @@
         Specifies a host name, IP address, URI, or object returned by New-AwtrixDevice.
 
     .EXAMPLE
-        Remove-AwtrixNotification -Device '192.168.88.202'
+        Remove-AwtrixNotification -Device 'clock.local'
 #>
 function Remove-AwtrixNotification
 {

@@ -29,10 +29,10 @@
         Returns each rendered frame for additional processing.
 
     .EXAMPLE
-        Watch-AwtrixScreen -Device '192.168.88.202'
+        Watch-AwtrixScreen -Device 'clock.local'
 
     .EXAMPLE
-        Watch-AwtrixScreen -Device '192.168.88.202' -DurationSec 30 -PassThru
+        Watch-AwtrixScreen -Device 'clock.local' -DurationSec 30 -PassThru
 #>
 function Watch-AwtrixScreen
 {

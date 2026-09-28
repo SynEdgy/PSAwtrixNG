@@ -11,7 +11,7 @@
         Specifies a host name, IP address, URI, or object returned by New-AwtrixDevice.
 
     .EXAMPLE
-        Get-AwtrixStorage -Device '192.168.88.202'
+        Get-AwtrixStorage -Device 'clock.local'
 #>
 function Get-AwtrixStorage
 {

@@ -24,7 +24,7 @@
             icon      = 'heartbeat-green-compact'
         }
 
-        Set-AwtrixPushedApp -Device '192.168.88.202' -Name build -App $card
+        Set-AwtrixPushedApp -Device 'clock.local' -Name build -App $card
 #>
 function Set-AwtrixPushedApp
 {

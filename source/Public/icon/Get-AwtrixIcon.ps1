@@ -14,10 +14,10 @@
         Specifies an exact, case-sensitive icon file name, including .gif or .jpg.
 
     .EXAMPLE
-        Get-AwtrixIcon -Device '192.168.88.202'
+        Get-AwtrixIcon -Device 'clock.local'
 
     .EXAMPLE
-        Get-AwtrixIcon -Device '192.168.88.202' -Name 'logo.gif'
+        Get-AwtrixIcon -Device 'clock.local' -Name 'logo.gif'
 #>
 function Get-AwtrixIcon
 {

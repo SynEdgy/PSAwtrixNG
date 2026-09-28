@@ -21,7 +21,7 @@
         Returns the settings object read after successful verification.
 
     .EXAMPLE
-        Set-AwtrixSetting -Device '192.168.88.202' -Setting @{ brightness = 100 } -WhatIf
+        Set-AwtrixSetting -Device 'clock.local' -Setting @{ brightness = 100 } -WhatIf
 #>
 function Set-AwtrixSetting
 {

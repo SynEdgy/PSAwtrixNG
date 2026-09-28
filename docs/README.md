@@ -15,9 +15,8 @@ The module is intended to cover:
 - MQTT publishing, subscriptions, and script-generated events.
 - Local development and explicitly enabled live-device testing.
 
-AWTRIX 3 uses a different API and remains supported by the separate
-`synedgy.PSAwtrix3` module. Compatibility shims between the two firmware
-families are not planned for the initial implementation.
+AWTRIX 3 uses a different API. `PSAwtrixNG` targets AWTRIX NG directly and
+does not provide compatibility shims for the older firmware.
 
 ## Design principles
 

@@ -28,13 +28,13 @@
         Returns the settings object after the brightness change is verified.
 
     .EXAMPLE
-        Set-AwtrixBrightness -Device '192.168.88.202' -Level 50
+        Set-AwtrixBrightness -Device 'clock.local' -Level 50
 
     .EXAMPLE
-        Set-AwtrixBrightness -Device '192.168.88.202' -Increase 10
+        Set-AwtrixBrightness -Device 'clock.local' -Increase 10
 
     .EXAMPLE
-        Set-AwtrixBrightness -Device '192.168.88.202' -Decrease 5 -PassThru
+        Set-AwtrixBrightness -Device 'clock.local' -Decrease 5 -PassThru
 #>
 function Set-AwtrixBrightness
 {

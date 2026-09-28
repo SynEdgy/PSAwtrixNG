@@ -13,7 +13,7 @@
         Specifies the script app name.
 
     .EXAMPLE
-        Get-AwtrixScript -Device '192.168.88.202' -Name Stopwatch
+        Get-AwtrixScript -Device 'clock.local' -Name Stopwatch
 #>
 function Get-AwtrixScript
 {

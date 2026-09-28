@@ -28,7 +28,7 @@
         Specifies the MQTT topic used to publish running, paused, and reset events.
 
     .EXAMPLE
-        Install-AwtrixStopwatch -Device '192.168.88.202'
+        Install-AwtrixStopwatch -Device 'clock.local'
 #>
 function Install-AwtrixStopwatch
 {

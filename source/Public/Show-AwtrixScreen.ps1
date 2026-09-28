@@ -19,10 +19,10 @@
         Returns the structured frame after rendering it.
 
     .EXAMPLE
-        Show-AwtrixScreen -Device '192.168.88.202'
+        Show-AwtrixScreen -Device 'clock.local'
 
     .EXAMPLE
-        Get-AwtrixScreen -Device '192.168.88.202' -AsFrame | Show-AwtrixScreen
+        Get-AwtrixScreen -Device 'clock.local' -AsFrame | Show-AwtrixScreen
 #>
 function Show-AwtrixScreen
 {

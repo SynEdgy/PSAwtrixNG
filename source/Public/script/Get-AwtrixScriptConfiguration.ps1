@@ -13,7 +13,7 @@
         Specifies the script app name.
 
     .EXAMPLE
-        Get-AwtrixScriptConfiguration -Device '192.168.88.202' -Name Weather
+        Get-AwtrixScriptConfiguration -Device 'clock.local' -Name Weather
 #>
 function Get-AwtrixScriptConfiguration
 {

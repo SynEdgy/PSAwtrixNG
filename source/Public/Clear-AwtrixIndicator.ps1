@@ -13,7 +13,7 @@
         Specifies indicator 1, 2, or 3.
 
     .EXAMPLE
-        Clear-AwtrixIndicator -Device '192.168.88.202' -Indicator 1
+        Clear-AwtrixIndicator -Device 'clock.local' -Indicator 1
 #>
 function Clear-AwtrixIndicator
 {

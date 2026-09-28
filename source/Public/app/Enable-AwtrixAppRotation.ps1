@@ -11,7 +11,7 @@
         Specifies a host name, IP address, URI, or object returned by New-AwtrixDevice.
 
     .EXAMPLE
-        Enable-AwtrixAppRotation -Device '192.168.88.202'
+        Enable-AwtrixAppRotation -Device 'clock.local'
 #>
 function Enable-AwtrixAppRotation
 {

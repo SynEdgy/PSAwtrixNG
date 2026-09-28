@@ -16,7 +16,7 @@
         Specifies script configuration keys and values.
 
     .EXAMPLE
-        Set-AwtrixScriptConfiguration -Device '192.168.88.202' -Name Weather -Configuration @{ city = 'London' }
+        Set-AwtrixScriptConfiguration -Device 'clock.local' -Name Weather -Configuration @{ city = 'London' }
 #>
 function Set-AwtrixScriptConfiguration
 {

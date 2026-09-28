@@ -23,10 +23,10 @@
         Specifies the fade interval in milliseconds.
 
     .EXAMPLE
-        Set-AwtrixIndicator -Device '192.168.88.202' -Indicator 1 -Color '#FF0000'
+        Set-AwtrixIndicator -Device 'clock.local' -Indicator 1 -Color '#FF0000'
 
     .EXAMPLE
-        Set-AwtrixIndicator -Device '192.168.88.202' -Indicator 2 -Color 0,255,0 -Blink 500
+        Set-AwtrixIndicator -Device 'clock.local' -Indicator 2 -Color 0,255,0 -Blink 500
 #>
 function Set-AwtrixIndicator
 {

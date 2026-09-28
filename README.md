@@ -1,56 +1,171 @@
-# PSAwtrixNG
+# PSAwtrixNG <img align="right" width="140" height="140" src="./docs/images/psawtrixng-logo.png" alt="PSAwtrixNG pixel clock logo">
+
+> [!NOTE]
+> **Inspired by Frank Lindenblatt at PSConfEU.**
+> This project grew from Frank's Posh-a-Kucha session and the possibilities he
+> demonstrated with an Ulanzi smart clock and PowerShell.
+> [Watch the session recording on YouTube](https://www.youtube.com/watch?v=8i62QL7lgBA).
 
 `PSAwtrixNG` is a PowerShell module for managing and automating
-[AWTRIX NG](https://github.com/Blueforcer/awtrix-ng) devices.
+[AWTRIX NG](https://github.com/Blueforcer/awtrix-ng) devices, especially the
+ESP32-based Ulanzi TC001 smart pixel clock.
 
-The module is being developed independently from
-[`synedgy.PSAwtrix3`](https://github.com/SynEdgy/synedgy.PSAwtrix3) because
-AWTRIX NG is a rewrite with a new `/api/v1` contract and on-device Berry
+`PSAwtrixNG` follows the move from AWTRIX 3 to AWTRIX NG, whose rewritten
+firmware provides a new HTTP API, MQTT integration, and on-device Berry
 scripting.
 
-## Capabilities
+> [!IMPORTANT]
+> The Ulanzi TC002 is not compatible. It is a Linux device built from different
+> components, not an ESP32-based TC001, and cannot run the AWTRIX NG firmware
+> targeted by this module.
 
-- Read device, settings, display, application, capability, and screen state.
-- Render and continuously watch the live matrix in the terminal.
-- Manage settings, read and adjust percentage-based brightness, control display
-  power, and manage indicators, pushed apps, and notifications.
-- Pause and resume automatic app-to-app display rotation.
-- Upload, list, download, and remove GIF or JPEG icons with storage preflight.
-- Report total, used, and free device filesystem space.
-- Use the bundled static and animated GIF assets in notifications and app cards.
-- Install, retrieve, configure, activate, and remove Berry scripts.
-- Install an on-device stopwatch with select-button start/pause, a three-press
-  local reset sequence, and optional MQTT start, pause, toggle, reset, and
-  restart commands.
-- Run an in-process MQTT broker and publish or capture MQTT messages.
+## AWTRIX NG and PowerShell
 
-## Quick start
+AWTRIX NG already provides a capable standalone clock. Its built-in web
+interface includes a live display preview, app navigation, brightness and power
+controls, scripts, icons, an icon editor, audio, palettes, display settings,
+system configuration, logs, backup and update features.
+
+![AWTRIX NG web dashboard showing the live matrix and device status](docs/images/awtrix-ng-web-interface.png)
+
+The firmware can rotate built-in apps, display pushed cards and notifications,
+run Berry scripts directly on the clock, communicate over HTTP and MQTT, and
+keep working without a PowerShell process connected.
+
+`PSAwtrixNG` makes those capabilities scriptable and composable from
+PowerShell. It lets you:
+
+- Inspect device health, settings, applications, capabilities, storage, and
+  the current screen.
+- Mirror the live 32x8 matrix in a terminal, once or continuously.
+- Send notifications and create pushed app cards with text, colors, icons, and
+  animations.
+- Read, set, increase, or decrease brightness using percentages.
+- Control display power, app selection, and automatic app rotation.
+- Upload, download, list, and remove icons and other device files.
+- Install, configure, activate, retrieve, and remove Berry scripts.
+- Install an on-device stopwatch controlled by buttons, HTTP, or MQTT.
+- Start an in-process MQTT broker and publish or capture AWTRIX messages.
+- Preview state-changing commands with PowerShell's `-WhatIf`.
+
+### Terminal view
+
+`Show-AwtrixScreen` renders the clock's current pixels using ANSI true color
+where supported. `Watch-AwtrixScreen` keeps the same terminal area synchronized
+with the physical display.
+
+![Agenda displayed from AWTRIX NG in a PowerShell terminal](docs/images/agenda-terminal-view.png)
 
 ```powershell
-.\build.ps1 -Tasks build
-
-$manifestParameters = @{
-    Path    = '.\output\module\PSAwtrixNG'
-    Filter  = 'PSAwtrixNG.psd1'
-    Recurse = $true
-}
-$manifest = Get-ChildItem @manifestParameters |
-    Select-Object -First 1
-Import-Module $manifest.FullName -Force
-
-$clock = New-AwtrixDevice -HostName '192.168.88.202' -Name DeskClock
-Get-AwtrixStatus -Device $clock
 Show-AwtrixScreen -Device $clock
+Watch-AwtrixScreen -Device $clock -DurationSec 60
+```
+
+## Bootstrap an Ulanzi TC001
+
+Flashing firmware changes the device and can erase its settings. Read the
+official [AWTRIX NG flashing guide](https://blueforcer.github.io/awtrix-ng/getting-started/flashing/)
+before starting.
+
+1. **Back up the original TC001 firmware.** Use `esptool` to read the complete
+   4 MB flash if you may want to restore the factory firmware later.
+2. **Connect the TC001 with a USB data cable.** A charge-only cable will not
+   expose its serial port.
+3. **Flash AWTRIX NG.** The simplest method is the official browser flasher in
+   desktop Chrome, Edge, or Opera. For a manual fresh install, use the
+   `usb-awtrix-ng-4mb.bin` image from the
+   [AWTRIX NG releases](https://github.com/Blueforcer/awtrix-ng/releases).
+4. **Join the temporary AWTRIX access point.** A fresh device displays
+   `AP MODE`. Connect to its open Wi-Fi network and browse to
+   `http://192.168.4.1` if the setup page does not open automatically.
+5. **Configure Wi-Fi and reboot.** AWTRIX joins the network and scrolls its IP
+   address across the matrix. Open that address to reach the web interface.
+6. **Install this PowerShell module and connect to the clock.**
+
+Install the latest preview from PowerShell Gallery:
+
+```powershell
+Install-PSResource -Name PSAwtrixNG -Prerelease
+Import-Module -Name PSAwtrixNG
+```
+
+Create a reusable device connection and verify it with read-only commands:
+
+```powershell
+$clock = New-AwtrixDevice -HostName '192.168.1.50' -Name DeskClock
+
+Get-AwtrixStatus -Device $clock
+Get-AwtrixBrightness -Device $clock
+Show-AwtrixScreen -Device $clock
+```
+
+If authentication is enabled in the AWTRIX web interface:
+
+```powershell
+$clock = New-AwtrixDevice -HostName 'clock.local' -Credential (Get-Credential)
+```
+
+## Try it
+
+Send a notification:
+
+```powershell
+Send-AwtrixNotification -Device $clock -Text 'Hello from PowerShell'
+```
+
+Create a card using an icon bundled with the module:
+
+```powershell
+$module = Get-Module -Name PSAwtrixNG
+$assetPath = Join-Path -Path $module.ModuleBase -ChildPath 'Assets\powershell.gif'
+$icon = Set-AwtrixIcon -Device $clock -Path $assetPath
+
+$card = [AwtrixApp] @{
+    text      = 'Build passed'
+    textColor = '#00FF00'
+    icon      = $icon.Id
+}
+
+Set-AwtrixPushedApp -Device $clock -Name build -App $card
+Select-AwtrixApp -Device $clock -Name build
+```
+
+Adjust brightness and pause app rotation:
+
+```powershell
+Set-AwtrixBrightness -Device $clock -Level 50
+Set-AwtrixBrightness -Device $clock -Increase 10
+Disable-AwtrixAppRotation -Device $clock
+Enable-AwtrixAppRotation -Device $clock
+```
+
+Install and display the standalone stopwatch:
+
+```powershell
 Install-AwtrixStopwatch -Device $clock
 Select-AwtrixApp -Device $clock -Name Stopwatch
 ```
 
-See [the project documentation](docs/README.md) and
-[the implementation roadmap](docs/planning/README.md).
+All state-changing commands support `-WhatIf` where applicable:
+
+```powershell
+Send-AwtrixNotification -Device $clock -Text 'Preview only' -WhatIf
+```
+
+## Documentation
+
+- [Getting started](source/WikiSource/Getting-Started.md)
+- [HTTP API examples](source/WikiSource/HTTP-API.md)
+- [MQTT and the PowerShell broker](source/WikiSource/MQTT.md)
+- [Berry scripts](source/WikiSource/Berry-Scripts.md)
+- [Icons, files, and storage](source/WikiSource/Icons-and-Files.md)
+- [Safety and testing](source/WikiSource/Safety-and-Testing.md)
+- [AWTRIX NG documentation](https://blueforcer.github.io/awtrix-ng/)
 
 ## Development
 
-Bootstrap dependencies and build the module through Sampler:
+The project uses [Sampler](https://github.com/gaelcolas/Sampler) for dependency
+resolution, building, testing, documentation, packaging, and publishing.
 
 ```powershell
 .\build.ps1 -ResolveDependency -Tasks noop
@@ -59,29 +174,22 @@ Bootstrap dependencies and build the module through Sampler:
 .\build.ps1 -Tasks docs
 ```
 
-GitHub Actions runs the Sampler build and package workflow, tests PowerShell 7
-on Windows, Linux, and macOS, tests Windows PowerShell 5.1, and runs the module
-quality checks. Every successful push to `main` publishes the
-GitVersion-generated `preview` prerelease to GitHub and PowerShell Gallery and
-updates the wiki. Stable releases are published only for tags matching
-`v1.2.3`; stable releases also open a pull request that moves the released
-entries out of the changelog's Unreleased section.
+GitHub Actions tests PowerShell 7 on Windows, Linux, and macOS, Windows
+PowerShell 5.1, and the module quality checks. Successful pushes to `main`
+publish a preview release. Stable releases are published only for tags matching
+`v1.2.3`.
 
-Configure these repository Actions secrets before the next push to `main` or
-before creating a stable release tag:
+## Acknowledgements
 
-- `PSGALLERY_API_KEY`: PowerShell Gallery publishing API key.
-- `RELEASE_PAT`: GitHub personal access token used by the Sampler release,
-  wiki, branch push, and changelog pull request tasks. For a fine-grained token,
-  grant this repository read/write access to Contents and Pull requests. A
-  classic token requires the `repo` scope.
-
-The dedicated PAT also allows the changelog branch push to trigger the normal
-pull-request validation workflow; pushes made with the built-in
-`GITHUB_TOKEN` do not trigger another workflow run.
+- [Frank Lindenblatt](https://www.youtube.com/watch?v=8i62QL7lgBA), whose
+  Posh-a-Kucha session at PSConfEU sparked the original project idea.
+- [Blueforcer](https://github.com/Blueforcer) and the AWTRIX contributors for
+  AWTRIX 3, AWTRIX NG, and the ecosystem around these small displays.
+- GitHub Copilot, which helped extensively with research, implementation,
+  testing, documentation, and the many rounds of pixel-art refinement.
 
 ## License
 
-This PowerShell module is licensed under the [MIT License](LICENSE).
-AWTRIX NG itself has a separate
+This PowerShell module is licensed under the [MIT License](LICENSE). AWTRIX NG
+is a separate project distributed under the
 [PolyForm Noncommercial 1.0.0 license](https://github.com/Blueforcer/awtrix-ng/blob/main/LICENSE.md).

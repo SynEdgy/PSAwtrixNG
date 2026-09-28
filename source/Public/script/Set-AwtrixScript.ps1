@@ -16,7 +16,7 @@
         Specifies the raw Berry source code.
 
     .EXAMPLE
-        Set-AwtrixScript -Device '192.168.88.202' -Name Hello -Source $berry
+        Set-AwtrixScript -Device 'clock.local' -Name Hello -Source $berry
 #>
 function Set-AwtrixScript
 {

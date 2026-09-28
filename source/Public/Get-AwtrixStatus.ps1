@@ -10,7 +10,7 @@
         Specifies a host name, IP address, URI, or object returned by New-AwtrixDevice.
 
     .EXAMPLE
-        Get-AwtrixStatus -Device '192.168.88.202'
+        Get-AwtrixStatus -Device 'clock.local'
 #>
 function Get-AwtrixStatus
 {
