@@ -19,7 +19,7 @@
         Overwrites an existing local destination file.
 
     .EXAMPLE
-        Save-AwtrixIcon -Device '192.168.88.202' -Name 'logo.gif' -Path '.'
+        Save-AwtrixIcon -Device 'clock.local' -Name 'logo.gif' -Path '.'
 #>
 function Save-AwtrixIcon
 {

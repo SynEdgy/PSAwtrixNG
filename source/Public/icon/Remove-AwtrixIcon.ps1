@@ -12,7 +12,7 @@
         Specifies the exact, case-sensitive icon file name to remove.
 
     .EXAMPLE
-        Remove-AwtrixIcon -Device '192.168.88.202' -Name 'logo.gif'
+        Remove-AwtrixIcon -Device 'clock.local' -Name 'logo.gif'
 #>
 function Remove-AwtrixIcon
 {

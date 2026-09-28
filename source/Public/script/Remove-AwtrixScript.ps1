@@ -13,7 +13,7 @@
         Specifies the script app name.
 
     .EXAMPLE
-        Remove-AwtrixScript -Device '192.168.88.202' -Name Stopwatch
+        Remove-AwtrixScript -Device 'clock.local' -Name Stopwatch
 #>
 function Remove-AwtrixScript
 {

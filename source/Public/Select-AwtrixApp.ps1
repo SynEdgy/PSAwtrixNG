@@ -19,10 +19,10 @@
         Switches to the previous application in the device loop.
 
     .EXAMPLE
-        Select-AwtrixApp -Device '192.168.88.202' -Name Time
+        Select-AwtrixApp -Device 'clock.local' -Name Time
 
     .EXAMPLE
-        Select-AwtrixApp -Device '192.168.88.202' -Next
+        Select-AwtrixApp -Device 'clock.local' -Next
 #>
 function Select-AwtrixApp
 {

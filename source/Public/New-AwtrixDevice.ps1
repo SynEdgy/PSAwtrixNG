@@ -19,7 +19,7 @@
         Specifies the maximum number of seconds allowed for each HTTP API request.
 
     .EXAMPLE
-        $clock = New-AwtrixDevice -HostName '192.168.88.202' -Name 'DeskClock'
+        $clock = New-AwtrixDevice -HostName 'clock.local' -Name 'DeskClock'
 #>
 function New-AwtrixDevice
 {

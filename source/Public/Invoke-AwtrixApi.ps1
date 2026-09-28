@@ -33,7 +33,7 @@
         the device into deep sleep. ShouldProcess confirmation still applies.
 
     .EXAMPLE
-        Invoke-AwtrixApi -Device '192.168.88.202' -Path 'api/v1/device'
+        Invoke-AwtrixApi -Device 'clock.local' -Path 'api/v1/device'
 #>
 function Invoke-AwtrixApi
 {

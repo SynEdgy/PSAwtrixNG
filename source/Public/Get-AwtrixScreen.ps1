@@ -14,10 +14,10 @@
         Returns a structured frame with coordinates and RGB channels for each pixel.
 
     .EXAMPLE
-        $screen = Get-AwtrixScreen -Device '192.168.88.202'
+        $screen = Get-AwtrixScreen -Device 'clock.local'
 
     .EXAMPLE
-        $frame = Get-AwtrixScreen -Device '192.168.88.202' -AsFrame
+        $frame = Get-AwtrixScreen -Device 'clock.local' -AsFrame
 #>
 function Get-AwtrixScreen
 {

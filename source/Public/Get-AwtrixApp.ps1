@@ -13,7 +13,7 @@
         Filters the returned applications by exact name.
 
     .EXAMPLE
-        Get-AwtrixApp -Device '192.168.88.202'
+        Get-AwtrixApp -Device 'clock.local'
 #>
 function Get-AwtrixApp
 {

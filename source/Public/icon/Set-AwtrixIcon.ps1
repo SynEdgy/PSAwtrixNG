@@ -19,10 +19,10 @@
         is used. A name without an extension inherits the source extension.
 
     .EXAMPLE
-        Set-AwtrixIcon -Device '192.168.88.202' -Path '.\logo.gif'
+        Set-AwtrixIcon -Device 'clock.local' -Path '.\logo.gif'
 
     .EXAMPLE
-        Set-AwtrixIcon -Device '192.168.88.202' -Path '.\build.gif' -Name 'status.gif'
+        Set-AwtrixIcon -Device 'clock.local' -Path '.\build.gif' -Name 'status.gif'
 #>
 function Set-AwtrixIcon
 {
