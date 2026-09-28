@@ -6,6 +6,7 @@ on:
       - main
     tags:
       - "v*"
+      - "!v*-*"
     paths-ignore:
       - CHANGELOG.md
   pull_request:
@@ -29,6 +30,7 @@ jobs:
     timeout-minutes: 30
     outputs:
       module-version: ${{ steps.version.outputs.module-version }}
+      release-kind: ${{ steps.version.outputs.release-kind }}
 
     steps:
       - name: Checkout repository
@@ -42,17 +44,38 @@ jobs:
         run: |
           if ($env:GITHUB_REF_TYPE -eq 'tag')
           {
-              $moduleVersion = $env:GITHUB_REF_NAME -replace '^v', ''
+              if ($env:GITHUB_REF_NAME -notmatch '^v(?<Version>\d+\.\d+\.\d+)$')
+              {
+                  throw "Stable release tags must use the format v1.2.3. Received '$env:GITHUB_REF_NAME'."
+              }
+
+              $moduleVersion = $Matches.Version
+              $releaseKind = 'stable'
           }
           else
           {
               dotnet tool install --global GitVersion.Tool --version 5.*
               $gitVersion = dotnet-gitversion /output json | ConvertFrom-Json
               $moduleVersion = $gitVersion.NuGetVersionV2
+              $releaseKind = 'none'
+
+              if (
+                  $env:GITHUB_EVENT_NAME -eq 'push' -and
+                  $env:GITHUB_REF -eq 'refs/heads/main'
+              )
+              {
+                  if ([System.String]::IsNullOrWhiteSpace($gitVersion.PreReleaseTag))
+                  {
+                      throw "GitVersion produced stable version '$moduleVersion' for main. A preview version is required."
+                  }
+
+                  $releaseKind = 'prerelease'
+              }
           }
 
           "ModuleVersion=$moduleVersion" >> $env:GITHUB_ENV
           "module-version=$moduleVersion" >> $env:GITHUB_OUTPUT
+          "release-kind=$releaseKind" >> $env:GITHUB_OUTPUT
 
       - name: Build and package module
         shell: pwsh
@@ -155,12 +178,14 @@ jobs:
           retention-days: 7
 
   publish:
-    name: Publish release
+    name: Publish ${{ needs.build.outputs.release-kind }}
     needs:
       - build
       - test
       - quality
-    if: github.event_name == 'push' && github.ref_type == 'tag'
+    if: >-
+      needs.build.outputs.release-kind == 'prerelease' ||
+      needs.build.outputs.release-kind == 'stable'
     runs-on: ubuntu-latest
     timeout-minutes: 30
     permissions:
@@ -202,5 +227,6 @@ jobs:
         run: ./build.ps1 -Tasks publish
 
       - name: Create changelog pull request
+        if: needs.build.outputs.release-kind == 'stable'
         shell: pwsh
         run: ./build.ps1 -Tasks Create_ChangeLog_GitHub_PR

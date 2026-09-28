@@ -61,11 +61,14 @@ Bootstrap dependencies and build the module through Sampler:
 
 GitHub Actions runs the Sampler build and package workflow, tests PowerShell 7
 on Windows, Linux, and macOS, tests Windows PowerShell 5.1, and runs the module
-quality checks. Pushes of `v*` tags publish the GitHub release, wiki
-content, and PowerShell Gallery package, then open a pull request that moves
-the released entries out of the changelog's Unreleased section.
+quality checks. Every successful push to `main` publishes the
+GitVersion-generated `preview` prerelease to GitHub and PowerShell Gallery and
+updates the wiki. Stable releases are published only for tags matching
+`v1.2.3`; stable releases also open a pull request that moves the released
+entries out of the changelog's Unreleased section.
 
-Configure these repository Actions secrets before creating a release tag:
+Configure these repository Actions secrets before the next push to `main` or
+before creating a stable release tag:
 
 - `PSGALLERY_API_KEY`: PowerShell Gallery publishing API key.
 - `RELEASE_PAT`: GitHub personal access token used by the Sampler release,
