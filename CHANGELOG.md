@@ -37,11 +37,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `Get-AwtrixFile` for Get-ChildItem-style listing of the ICONS, MELODIES,
   PALETTES, and MP3 asset directories.
 - An in-process MQTTnet broker with PowerShell 5.1 and PowerShell 7 assets.
+- `Update-AwtrixFirmware` for guarded multipart OTA installation with explicit
+  opt-in, high-impact confirmation, and local image checks before the device
+  performs its complete firmware validation.
 
 ### Changed
 
 - Renamed the module and all associated types, assemblies, documentation, and
   build artifacts from `synedgy.PSAwtrixNG` to `PSAwtrixNG`.
+- Changed the on-device stopwatch to cache paused display text and perform
+  high-frequency elapsed-time formatting only while the timer is running.
+- Moved the Stopwatch Berry implementation into a packaged
+  `Berry/Stopwatch` application directory with explicit template tokens,
+  allowing installation commands to load scripts and associated assets
+  without embedded PowerShell here-strings.
 - Added declarative length validation for icon file names and their
   firmware-facing IDs.
 - Corrected the bundled Minecraft icon filenames and changed their canvases

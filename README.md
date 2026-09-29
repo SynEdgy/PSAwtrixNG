@@ -89,6 +89,24 @@ Install-PSResource -Name PSAwtrixNG -Prerelease
 Import-Module -Name PSAwtrixNG
 ```
 
+An existing AWTRIX NG installation can be updated with its OTA image after
+reviewing the release and downloading the correct `.bin` file:
+
+```powershell
+$updateParameters = @{
+    Device              = $clock
+    Path                = '.\firmware-awtrix-ng.bin'
+    AllowFirmwareUpdate = $true
+    WhatIf              = $true
+}
+
+Update-AwtrixFirmware @updateParameters
+```
+
+Remove `-WhatIf` only after verifying the exact image. The command rejects
+`usb-*` full-flash images, requires high-impact confirmation, uploads the OTA
+image, and then the device reboots.
+
 Create a reusable device connection and verify it with read-only commands:
 
 ```powershell

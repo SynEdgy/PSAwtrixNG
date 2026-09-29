@@ -52,7 +52,8 @@ The elapsed time is displayed as `minutes:seconds.hundredths`, for example
 `1:23.45`.
 
 Left and right retain normal app navigation. The paused elapsed time is
-persisted by the device.
+persisted by the device. While paused, the script reuses its cached display
+text instead of rebuilding the time string on every display frame.
 
 MQTT is optional. When configured, publish a command to
 `awtrix/stopwatch/control`:

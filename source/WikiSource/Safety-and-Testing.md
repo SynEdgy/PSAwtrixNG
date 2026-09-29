@@ -14,6 +14,7 @@ these endpoints:
 - `api/v1/device/factory-reset`
 - `api/v1/firmware`
 - `api/v1/restore`
+- `update`
 
 The switch is an explicit opt-in, not a confirmation bypass. Normal
 `ShouldProcess` confirmation still applies.
@@ -29,6 +30,24 @@ $apiParameters = @{
 
 Invoke-AwtrixApi @apiParameters
 ```
+
+Firmware installation has a dedicated high-impact command. It requires both
+`-AllowFirmwareUpdate` and normal `ShouldProcess` confirmation:
+
+```powershell
+$updateParameters = @{
+    Device              = $clock
+    Path                = '.\firmware-awtrix-ng.bin'
+    AllowFirmwareUpdate = $true
+    WhatIf              = $true
+}
+
+Update-AwtrixFirmware @updateParameters
+```
+
+Use the OTA image identified by the device or AWTRIX NG release notes. Do not
+pass a `usb-*` full-flash image to `Update-AwtrixFirmware`. The device validates
+the uploaded image and reboots after accepting it.
 
 ## Automated tests
 

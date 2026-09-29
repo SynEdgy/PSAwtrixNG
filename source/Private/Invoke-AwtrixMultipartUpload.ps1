@@ -16,11 +16,17 @@
     .PARAMETER Query
         Specifies query-string parameters appended to the upload endpoint.
 
+    .PARAMETER FieldName
+        Specifies the multipart form field name used for the uploaded file.
+
     .PARAMETER FilePath
         Specifies the full path of the local file to stream.
 
     .PARAMETER FileName
         Specifies the file name included in the multipart content disposition.
+
+    .PARAMETER ContentType
+        Specifies the media type assigned to the uploaded file content.
 
     .EXAMPLE
         Invoke-AwtrixMultipartUpload -Device $device -Path 'api/v1/files' -Query @{ dir = '/ICONS' } -FilePath '.\logo.gif' -FileName 'logo.gif'
@@ -39,9 +45,14 @@ function Invoke-AwtrixMultipartUpload
         [System.String]
         $Path,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter()]
         [System.Collections.IDictionary]
         $Query,
+
+        [Parameter()]
+        [ValidateNotNullOrEmpty()]
+        [System.String]
+        $FieldName = 'file',
 
         [Parameter(Mandatory = $true)]
         [System.String]
@@ -49,18 +60,26 @@ function Invoke-AwtrixMultipartUpload
 
         [Parameter(Mandatory = $true)]
         [System.String]
-        $FileName
+        $FileName,
+
+        [Parameter()]
+        [ValidateNotNullOrEmpty()]
+        [System.String]
+        $ContentType = 'application/octet-stream'
     )
 
     $resolvedDevice = Resolve-AwtrixDevice -Device $Device
     $requestUri = [System.Uri]::new($resolvedDevice.BaseUri, $Path.TrimStart('/'))
     $uriBuilder = [System.UriBuilder]::new($requestUri)
-    $queryParts = foreach ($entry in $Query.GetEnumerator())
+    if ($Query -and $Query.Count -gt 0)
     {
-        '{0}={1}' -f [System.Uri]::EscapeDataString([System.String] $entry.Key),
-            [System.Uri]::EscapeDataString([System.String] $entry.Value)
+        $queryParts = foreach ($entry in $Query.GetEnumerator())
+        {
+            '{0}={1}' -f [System.Uri]::EscapeDataString([System.String] $entry.Key),
+                [System.Uri]::EscapeDataString([System.String] $entry.Value)
+        }
+        $uriBuilder.Query = $queryParts -join '&'
     }
-    $uriBuilder.Query = $queryParts -join '&'
 
     Add-Type -AssemblyName System.Net.Http -ErrorAction Stop
     $handler = [System.Net.Http.HttpClientHandler]::new()
@@ -86,9 +105,11 @@ function Invoke-AwtrixMultipartUpload
     {
         $stream = [System.IO.File]::OpenRead($FilePath)
         $fileContent = [System.Net.Http.StreamContent]::new($stream)
+        $fileContent.Headers.ContentType =
+            [System.Net.Http.Headers.MediaTypeHeaderValue]::new($ContentType)
         $contentDisposition =
             [System.Net.Http.Headers.ContentDispositionHeaderValue]::new('form-data')
-        $contentDisposition.Name = '"file"'
+        $contentDisposition.Name = '"{0}"' -f $FieldName
         $contentDisposition.FileName = '"{0}"' -f $FileName
         $fileContent.Headers.ContentDisposition = $contentDisposition
         $multipart.Add($fileContent)

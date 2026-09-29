@@ -69,131 +69,16 @@ function Install-AwtrixStopwatch
             return
         }
 
-        $source = @"
-# @name $Name
-# @description Select starts or pauses; three paced presses reset.
-class Stopwatch
-  var running
-  var started
-  var elapsed
-  var selectCount
-  var lastSelect
-
-  def init()
-    self.running = false
-    self.started = 0
-    self.elapsed = store.get("elapsedMs", 0)
-    self.selectCount = 0
-    self.lastSelect = 0
-  end
-
-  def setup()
-    mqtt.subscribe("$ResetTopic", def (topic, payload) self.reset() end)
-    mqtt.subscribe("$ControlTopic", def (topic, payload) self.control(payload) end)
-  end
-
-  def start()
-    if !self.running
-      self.started = now_ms()
-      self.running = true
-      mqtt.publish("$StateTopic", "running")
-    end
-  end
-
-  def pause()
-    if self.running
-      self.elapsed = self.elapsed + now_ms() - self.started
-      self.running = false
-      store.set("elapsedMs", self.elapsed)
-      mqtt.publish("$StateTopic", "paused")
-    end
-  end
-
-  def toggle()
-    if self.running
-      self.pause()
-    else
-      self.start()
-    end
-  end
-
-  def reset()
-    self.running = false
-    self.started = 0
-    self.elapsed = 0
-    self.selectCount = 0
-    self.lastSelect = 0
-    store.set("elapsedMs", 0)
-    mqtt.publish("$StateTopic", "reset")
-  end
-
-  def restart()
-    self.elapsed = 0
-    self.selectCount = 0
-    self.lastSelect = 0
-    store.set("elapsedMs", 0)
-    self.running = false
-    self.start()
-  end
-
-  def control(command)
-    if command == "start"
-      self.start()
-    elif command == "pause"
-      self.pause()
-    elif command == "toggle"
-      self.toggle()
-    elif command == "reset"
-      self.reset()
-    elif command == "restart"
-      self.restart()
-    end
-  end
-
-  def on_button(btn)
-    if btn == "select"
-      var pressed = now_ms()
-      var gap = pressed - self.lastSelect
-      if self.lastSelect > 0 && gap >= 350 && gap <= 1200
-        self.selectCount = self.selectCount + 1
-      else
-        self.selectCount = 1
-      end
-      self.lastSelect = pressed
-
-      if self.selectCount >= 3
-        self.reset()
-        return
-      end
-
-      self.toggle()
-    end
-  end
-
-  def draw()
-    clear()
-    var elapsed = self.elapsed
-    if self.running
-      elapsed = elapsed + now_ms() - self.started
-    end
-    var total = int(elapsed / 1000)
-    var minutes = int(total / 60)
-    var seconds = total % 60
-    var hundredths = int((elapsed % 1000) / 10)
-    var secondsText = seconds < 10 ? "0" + str(seconds) : str(seconds)
-    var hundredthsText = hundredths < 10 ? "0" + str(hundredths) : str(hundredths)
-    var label = str(minutes) + ":" + secondsText + "." + hundredthsText
-    var color = self.running ? 0x00FF00 : 0xFFAA00
-    text((width() - text_ink_width(label)) / 2, 6, label, color)
-  end
-
-  def duration()
-    return 60000
-  end
-end
-
-return Stopwatch()
-"@
+        $sourceParameters = @{
+            Name  = 'Stopwatch'
+            Token = @{
+                APP_NAME      = $Name
+                RESET_TOPIC   = $ResetTopic
+                CONTROL_TOPIC = $ControlTopic
+                STATE_TOPIC   = $StateTopic
+            }
+        }
+        $source = Get-AwtrixBerryAppSource @sourceParameters
 
         Set-AwtrixScript -Device $resolvedDevice -Name $Name -Source $source -Confirm:$false
     }

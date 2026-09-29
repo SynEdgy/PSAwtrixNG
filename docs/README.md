@@ -27,6 +27,9 @@ does not provide compatibility shims for the older firmware.
 - Do not store device credentials or private addresses in tracked files.
 - Keep HTTP transport, MQTT transport, and public command behavior separable
   and independently testable.
+- Keep packaged Berry applications and their app-specific assets under
+  `source/Berry/<AppName>`; installation commands render those templates
+  instead of embedding Berry source in PowerShell here-strings.
 - Return structured PowerShell objects instead of formatted text.
 
 ## Development workflow

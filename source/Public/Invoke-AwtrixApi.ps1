@@ -110,6 +110,7 @@ function Invoke-AwtrixApi
             'api/v1/device/factory-reset'
             'api/v1/firmware'
             'api/v1/restore'
+            'update'
         )
 
         if ($normalizedPath -in $dangerousPaths -and -not $AllowDangerousOperation)

@@ -53,4 +53,12 @@ Describe 'Invoke-AwtrixApi' {
         $result | Should -Be 'response'
         Should -Invoke -CommandName Invoke-AwtrixHttpRequest -Exactly -Times 1 -Scope It
     }
+
+    It 'Should protect the firmware update endpoint' {
+        {
+            PSAwtrixNG\Invoke-AwtrixApi -Device '192.0.2.10' -Path '/update' -Method Post -Confirm:$false
+        } | Should -Throw "*requires -AllowDangerousOperation*"
+
+        Should -Invoke -CommandName Invoke-AwtrixHttpRequest -Exactly -Times 0 -Scope It
+    }
 }

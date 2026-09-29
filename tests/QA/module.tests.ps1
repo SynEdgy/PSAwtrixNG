@@ -120,6 +120,37 @@ Describe 'Bundled module assets' -Tags 'FunctionalQuality' {
             $height | Should -Be 8
         }
     }
+
+    It 'Should copy every Berry application file into the built module' {
+        $projectRoot = "$PSScriptRoot\..\.." | Convert-Path
+        $sourceBerryPath = Join-Path -Path $projectRoot -ChildPath 'source'
+        $sourceBerryPath = Join-Path -Path $sourceBerryPath -ChildPath 'Berry'
+        $builtModuleRoot = Join-Path -Path $projectRoot -ChildPath 'output'
+        $builtModuleRoot = Join-Path -Path $builtModuleRoot -ChildPath 'module'
+        $builtModuleRoot = Join-Path -Path $builtModuleRoot -ChildPath $script:moduleName
+        $builtManifest = Get-ChildItem -LiteralPath $builtModuleRoot -Filter "$script:moduleName.psd1" -Recurse |
+            Select-Object -First 1
+        $builtBerryPath = Join-Path -Path $builtManifest.Directory.FullName -ChildPath 'Berry'
+
+        Test-Path -LiteralPath $builtBerryPath -PathType Container |
+            Should -BeTrue
+
+        foreach ($sourceFile in (Get-ChildItem -LiteralPath $sourceBerryPath -File -Recurse))
+        {
+            $trimCharacters = [System.Char[]] @(
+                [System.IO.Path]::DirectorySeparatorChar
+                [System.IO.Path]::AltDirectorySeparatorChar
+            )
+            $relativePath = $sourceFile.FullName.Substring($sourceBerryPath.Length)
+            $relativePath = $relativePath.TrimStart($trimCharacters)
+            $builtFilePath = Join-Path -Path $builtBerryPath -ChildPath $relativePath
+
+            Test-Path -LiteralPath $builtFilePath -PathType Leaf |
+                Should -BeTrue
+            (Get-FileHash -LiteralPath $builtFilePath -Algorithm SHA256).Hash |
+                Should -Be (Get-FileHash -LiteralPath $sourceFile.FullName -Algorithm SHA256).Hash
+        }
+    }
 }
 
 BeforeDiscovery {
