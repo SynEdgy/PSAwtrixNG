@@ -121,6 +121,18 @@ Describe 'Bundled module assets' -Tags 'FunctionalQuality' {
         }
     }
 
+    It 'Should keep the white terminal at side-icon dimensions' {
+        $projectRoot = "$PSScriptRoot\..\.." | Convert-Path
+        $sourceAssetsPath = Join-Path -Path $projectRoot -ChildPath 'source\Assets'
+        $assetPath = Join-Path -Path $sourceAssetsPath -ChildPath 'terminal-white.gif'
+        $header = [System.IO.File]::ReadAllBytes($assetPath)
+        $width = [System.BitConverter]::ToUInt16($header, 6)
+        $height = [System.BitConverter]::ToUInt16($header, 8)
+
+        $width | Should -Be 8 -Because 'terminal-white.gif should render beside text'
+        $height | Should -Be 8
+    }
+
     It 'Should copy every Berry application file into the built module' {
         $projectRoot = "$PSScriptRoot\..\.." | Convert-Path
         $sourceBerryPath = Join-Path -Path $projectRoot -ChildPath 'source'

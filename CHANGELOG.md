@@ -55,3 +55,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   firmware-facing IDs.
 - Corrected the bundled Minecraft icon filenames and changed their canvases
   from 32×8 backgrounds to 8×8 side icons.
+- Changed `terminal-white.gif` from a 32x8 background to an 8x8 side icon so
+  pushed-app text uses the remaining display width.
